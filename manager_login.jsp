@@ -8,7 +8,9 @@
 <% session.setAttribute("page", "remodeling_form.jsp"); %>
 <%
 
-
+/*로그인된 세션 아이디(추후개발) 가져오기, 현재 페이지 저장
+String id = session.getAttribute("s_id")+"";
+String now = "_remodeling_form.jsp";*/
 
 //DB에 사용 할 객체들 정의
 Connection conn = DBUtil.getMySQLConnection();
@@ -38,30 +40,23 @@ String name = session.getAttribute("name")+"";
 
   gtag('config', 'G-PC15JG6KGN');
 </script>
-<%
-if(s_id.equals("")){
-	%><script>
-		history.back(-1);
-	</script><%
-}
-%>
 <link rel="SHORTCUT ICON" href="img/favicon.ico" />
 <link rel="stylesheet" type="text/css" href="https://pm.pstatic.net/css/webfont_v170623.css"/>
 <link rel="stylesheet" type="text/css" href="slick-1.8.1/slick/slick.css"/>
 <link rel="stylesheet" type="text/css" href="slick-1.8.1/slick/slick-theme.css"/>
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <style type="text/css">
-@import url(https://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
 @font-face{
 font-family:'Nanum Gothic',sans-serif;
 }
 html{
-height: 100%;
+width:100%;
+height:100%;
 }
 body{
 width:100%;
 height:100%;
-margin: 0;
 }
 *{
 font-family:'Nanum Gothic',sans-serif;
@@ -89,10 +84,9 @@ input[type="checkbox"]:checked + label span {
 }
 #container {
     width: 100%;
-    height: 100%;
     max-width: 700px;
     margin: 0 auto;
-    /*box-shadow: 0px 0px 20px #f4f4f4;*/
+    box-shadow: 0px 0px 20px #f4f4f4;
 }
 #somun_navbar {
     /*border-bottom: 1px solid #c8c8c8;*/
@@ -102,52 +96,44 @@ input[type="checkbox"]:checked + label span {
     padding: 39px 0 11px;
 }
 #content{
-	max-width: 700px;
-	width: 100%;
-	min-width: 300px;
-    height: 100%;
-    margin: 0 auto;
-    box-shadow: 0px 0px 9px 5px #0000001c;
+    margin: 60px auto;
+    max-width: 600px;
+    height: fit-content;
+    width: fit-content;
+    margin: 65% auto;
+    padding: 58px 30px;
+    box-shadow: 0px 0px 9px 5px #00000014;
     border-radius: 7px;
-    background: linear-gradient(45deg, #cc00ffcc, #5118ff);
-
 }
 #content-div{
 	width: 100%;
     display: inline-block;
     border-radius: 5px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    position: relative;
 }
-.mybox{
-    width: 77%;
-    border: 2px solid white;
-    margin: 23px auto;
-    padding: 13px 12px;
+#company_name{
     text-align: center;
-    border-radius: 1px;
-	color: white;
-	font-size:12pt;
-	font-weight: bold;
-	transition-duration: 200ms;
+    font-size: 15pt;
 }
-.mybox:hover{
-	background: white;
-	color:#7920ff;
-	cursor: pointer;
+#password_area{
+	width: fit-content;
+    margin: 0 auto;
+    padding: 17px;
 }
-#admin{
-    width: 77%;
-    margin: 23px auto;
-    padding: 13px 12px;
-    text-align: center;
-    border-radius: 1px;
-	border:none;
-	color: white;
-	font-size:12pt;
-	font-weight: bold;
+#password_label{
+    padding-bottom: 5px;
+}
+input[name="password"]{
+    border: 0px solid #bebebe;
+    border-radius: 6px;
+    height: 28px;
+    background: #f2f2f2;
+}
+input[type="submit"]{
+    height: 30px;
+    border: 0;
+    border-radius: 6px;
+    background: #858585;
+    color: white;
 }
 </style>
 <meta charset="UTF-8">
@@ -155,18 +141,33 @@ input[type="checkbox"]:checked + label span {
 <title>소문난집</title>
 </head>
 <body>
+<div id="container">
+<div id="somun_navbar">
+	<div id="somun_menu"></div>
+	<div style="float:left;width:100%;height:max-content;margin-bottom:10px;text-align:center;">
+	<div id="somun_logo"><a href="index.jsp"><img style="width:128px;"src="img/somunlogo.png"></a></div>
+	<div style="margin:auto;width:max-content;color: #31b1f2;font-size:10pt;">대구 1등 리모델링 플랫폼</div>
+	</div>
+</div>
+<div></div>
 <div id="content">
-		<!------------ 내용물  --------------->
     <div id="content-div">
+		<!------------ 내용물  --------------->
+		
+		<div>
 			<form action="_manager_login.jsp" method="POST">
 			<!-- 로그인 구역 -->
-				<div id="admin">👨‍🔧소문난집 관리자 페이지👩‍🔧</div>
-				<div class="mybox" id="check">신청 건 확인</div>
-				<div class="mybox" id="upload">사례 등록</div>
-				<div class="mybox" id="home">소문난집 홈으로</div>
+				<div id="company_name">관리자 로그인</div>
+				<div id="password_area">
+					<div id="password_label">비밀번호</div>
+					<input type="password" name="password">
+					<input type="submit" value="확인">
+				</div>
 			</form>
-	</div>
+		</div>
+		
 		<!------------ 내용물  --------------->
+	</div>
 </div>
 <%
 //DB개체 정리
@@ -177,16 +178,6 @@ query="";
 conn.close();
 */
 %>
-<script>
-	$('.mybox').click(function(){
-		if($(this).attr('id') == "check")
-			location.href='remodeling_request.jsp';
-		else if($(this).attr('id') == "upload")
-			location.href='item_upload.jsp';
-		else if($(this).attr('id') == "home")
-			location.href='index.jsp';
-	})
-</script>
 <script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>
 <script type="text/javascript">
 if(!wcs_add) var wcs_add = {};
@@ -194,5 +185,6 @@ wcs_add["wa"] = "3602e31fd32c7e";
 wcs_do();
 </script>
 <script type="text/javascript" src="slick-1.8.1/slick/slick.min.js"></script>
+</div>
 </body>
 </html>

@@ -93,7 +93,7 @@ z-index : 10;
 }
 #somun_navbar{
 /*border: 1px solid red;*/
-border-bottom: 1px solid #c8c8c8;
+/*border-bottom: 1px solid #c8c8c8;*/
 display: inline-block;
 height: fit-content;
 width: 100%;
@@ -182,8 +182,45 @@ margin: 0 7px 0 0;
 #main{
 width:100%;display:inline-block;
 }
-#recommend div{
-padding:13px;
+.center{
+height: 420px;
+overflow: hidden;
+}
+#recommend #ref{
+    padding: 12% 0;
+    font-size: 15pt;
+    width: fit-content;
+    left: 48%;
+    position: relative;
+    transform: translate(-50%, 0);
+}
+#ref{
+	display: none;
+}
+#ref::before{
+	content: ;
+    background-image: url(img/thumbs.png);
+    background-size: 45px 45px;
+    width: 42px;
+    height: 40px;
+    display: inline-block;
+    line-height: 48px;
+}
+.ajax_click{
+	text-align: center;
+    padding: 11% 0 0%;
+}
+.center img{
+}
+.center_img{
+	box-sizing:border-box;
+	border:10px solid white;
+}
+.center_img div{
+	width:100%;
+	height:400px;
+	border-radius:10px;
+	overflow: hidden;
 }
 .item{
 width: 45%;
@@ -353,12 +390,22 @@ background-size: 30px 30px;
 float:left;
 }
 @media (max-width : 768px){
-
-#somun_logo{
+	#somun_logo{
 	}
-#somun_search{
+	#somun_search{
 	left:0px;
+	}
 }
+@media (max-width : 510px){
+	.center{
+		height: 220px;
+	}
+	.center_img{
+		border:5px solid white;
+	}
+	.center_img div{
+		height:200px;
+	}
 }
 @media (max-width : 370px){
 .item img{
@@ -466,10 +513,55 @@ applyEle.on('click', function(){
 	-->
 	<div id="somun_menu"></div>
 	<div style="float:left;width:100%;height:max-content;margin-bottom:10px;text-align:center;">
-	<div id="somun_logo"><a href="index.jsp"><img style="width:128px;"src="img/somunlogo.png"></a></div>
-	<div style="margin:auto;width:max-content;color: #31b1f2;font-size:10pt;">대구 1등 리모델링 플랫폼</div>
+	<div id="somun_logo"><a href="index.jsp"><img style="width:105px;"src="img/somunlogo.png"></a></div>
+	<div style="margin:auto;width:max-content;color: #6d6d6d;font-size:10pt;">대구 리모델링 플랫폼</div>
 	</div>
-	<div id="somun_search">
+</div>
+<div id="main">
+	<div id="recommend">
+		<div id="ref">소문 pick 추천 사례</div>
+		<div class="center">
+	<%
+	//추천 사례 받아오기
+	query = "select * from REMODELING where Root_area = -1 order by Number DESC LIMIT 1";
+	pstmt = conn.prepareStatement(query);
+	rs = pstmt.executeQuery();
+	String recitem[][] = new String[100][18];
+	int i = 0;
+	while(rs.next()){
+		recitem[i][0] = rs.getString("Number");
+		recitem[i][1] = rs.getString("Id");
+		recitem[i][2] = rs.getString("Title");
+		i++;
+	}
+	//out.println(pstmt);
+	int recnum = i;
+	//추천 사례 사진 받아오기
+	for(i=0; i<recnum; i++){
+    	pstmt = null;
+    	query = "SELECT * FROM RMDL_IMG WHERE Number = ? order by Number2";
+    	rs = null;
+    	pstmt = conn.prepareStatement(query);
+    	pstmt.setString(1, recitem[i][0]);
+    	rs = pstmt.executeQuery();
+    	while(rs.next()){
+    		String imgstr = rs.getString("Path");
+    		imgstr = imgstr.replaceAll("%", "%25");
+    		%>
+			<div><div class="center_img"><div>
+			<a href = "_hit.jsp?num=<%=recitem[i][0]%>" target="_self">
+    		<img src="<%=imgstr%>" class="eotkd">
+    		</a>
+    		</div></div></div>
+    		<%
+    	}
+    	%>
+	<%
+	}
+	%>
+			</div>
+	</div>
+		<div id="somun_search">
 		<!-- div class = "search_item" id="search_item1">
 			<input type="text" id="bdNm"  name="bdNm" placeholder = "아파트 명으로 찾기">
 			<input type="submit" value="">
@@ -485,7 +577,7 @@ applyEle.on('click', function(){
 			}
 		%>
 		<!-- input type="radio" name="Daegu" id="all" value="all"><label for="all" class="mylabel">대구전체</label-->
-		<div class="ajax_click" style="text-align:center;">
+		<div class="ajax_click">
 		<input class="area1" onClick="ajax_click(this)" type="radio" name="Daegu" id="jung-gu" value="141"<%if(Arrays.asList(request_areas).contains("141")) out.println("checked");%>><label for="jung-gu" class="mylabel">중구</label>
 		<input class="area1" onClick="ajax_click(this)" type="radio" name="Daegu" id="dong-gu" value="142"<%if(Arrays.asList(request_areas).contains("142")) out.println("checked");%>><label for="dong-gu" class="mylabel">동구</label>
 		<input class="area1" onClick="ajax_click(this)" type="radio" name="Daegu" id="seo-gu" value="143"<%if(Arrays.asList(request_areas).contains("143")) out.println("checked");%>><label for="seo-gu" class="mylabel">서구</label>
@@ -616,8 +708,6 @@ applyEle.on('click', function(){
 		</div>
 
 	</div>
-</div>
-<div id="main">
     <div>
     <form id="form" name="form" method="POST" action="remodeling.jsp">
     <!--  
@@ -720,7 +810,6 @@ String build = null;
 build = request.getParameter("bdNm");
 query = "Select * from REMODELING";
 if(request_areas != null && !request_areas[0].equals("all")){
-	int i;
 	query += " Where Second_area = " + request_areas[0];
 	for(i = 1; i < request_areas.length; i++){
 		query += " Or Second_area = " + request_areas[i];
@@ -729,15 +818,15 @@ if(request_areas != null && !request_areas[0].equals("all")){
 		query += " And Apart_name Like \"%"+apartment+"%\"";
 	}
 }
-else if(request_areas == null){
-	query += " Where Second_area = 147";
-}
-else if(request_areas[0].equals("all")){
+//else if(request_areas == null){
+	//query += " Where Second_area = 147";
+//}
+//else if(request_areas[0].equals("all")){
 	//query += " Where Second_area = 147";
 	//if(apartment != "" && apartment != null){
 		//query += "Where Apart_name Like %"+apartment+"%";
 	//}
-}
+//}
 query += " order by Apart_name asc"; //limit 10
 //out.println(query);
 /*if(build != null && !build.equals("null")){
@@ -749,8 +838,8 @@ else{*/
 	pstmt = conn.prepareStatement(query);
 //}
 rs = pstmt.executeQuery();
-String item[][] = new String[10000][18];
-int i = 0;
+String item[][] = new String[100000][18];
+i = 0;
 while(rs.next()){
 	item[i][0] = rs.getString("Number");
 	item[i][1] = rs.getString("Id");
@@ -778,16 +867,15 @@ while(rs.next()){
 			&& item[i][4].indexOf("솔트") == -1
 			&& item[i][4].indexOf("바르다") == -1
 			&& item[i][4].indexOf("썬") == -1
-			&& item[i][4].indexOf("굿") == -1)
-		
+			&& item[i][4].indexOf("굿") == -1
+			&& item[i][4].indexOf("AT") == -1)
 		continue;
 	//거리계산//item[i][12] = String.valueOf(Math.sqrt(((x-Float.parseFloat(item[i][10]))*(x-Float.parseFloat(item[i][10])))+((y-Float.parseFloat(item[i][9]))*(y-Float.parseFloat(item[i][9])))));
 	//if(item[i][4].indexOf("오픈하우스") == -1) continue; 오픈하우스를 오픈함
 	i++;
-	
 }
 int itemnum = i;
-//거리순정렬
+//리모델링 사례 거리순정렬
 /*
 int min = 0;
 int j;
@@ -800,7 +888,9 @@ for(i = 0; i < item.length; i++){
 	temp = item[i];
 	item[i] = item[j];
 	item[j] = temp;
-}*/%>
+}*/
+
+%>
 	<!-- div style="width:100%;">
 		<div style="margin:0 auto; width:max-content;">
 		<label class="box-radio-input"><input type="radio" name="search_type"> <span>사례찾기</span></label>
@@ -813,7 +903,6 @@ for(i = 0; i < item.length; i++){
 	{%>
 		<div style="width:100%;text-align:center;"><a href="item_upload.jsp" target="_blank"><button style="width:150px;height:45px;margin:40px;border-radius:5px; background-color:#29aef2; color:white; font-size:17px; border:none;">사례등록  ></button></a></div>
 	<%}%>
-	<div class="ajax_click">
     <%
     //itemnum -> 아이템 개수
     //pageitemnum -> 페이지 총 개수
@@ -825,9 +914,13 @@ for(i = 0; i < item.length; i++){
     int pagenum = Integer.parseInt(pagenumstr);
 
 	%>
-    </div>
     
     <%
+    //추천 사례들 먼저 정렬
+    for(i=0; i<recnum; i++){
+    	
+    }
+    
     int startnum; //시작하는 번호
     int endnum; //끝나는 번호
     if(pagenum == pageitemnum){ //현재페이지 == 페이지 총 개수
@@ -1144,6 +1237,70 @@ function ajax_click(obj){
     }
 }
 </script>
+<script>
+function frame(){
+		var div = $(".center div"); // 이미지를 감싸는 div
+		var img = $(".eotkd"); // 이미지
+		var divWidth = div[0].offsetWidth
+		var divHeight = div[0].offsetHeight-10;
+		if(divWidth >= 510){
+			divHeight -= 10;
+			divWidth -= 120;
+			//alert("넓");
+		}
+		else{
+			divWidth -= 110;
+			//alert("안넓");
+		}
+		var divAspect = divHeight / divWidth; // div의 가로세로비는 알고 있는 값이다 세로/가로
+		//alert("divWidth : "+ divWidth);
+		//alert("divHeight : " + divHeight);
+		for(var i=0; i<img.length; i++){
+			var imgAspect = img[i].height / img[i].width;
+			if (imgAspect <= divAspect) {
+		   	 	// 이미지가 div보다 납작한 경우 세로를 div에 맞추고 가로는 잘라낸다
+		    	var imgWidthActual = divHeight / imgAspect;
+		    	var imgWidthToBe = divHeight / divAspect;
+		    	var marginLeft = -Math.round((imgWidthActual - imgWidthToBe) / 2);
+		    	img[i].style.cssText = 'width: auto; height: 100%; margin-left: '
+		                      	+ marginLeft + 'px;';
+		                      	//alert('납');
+		                      	//alert('imgWidthToBe' + imgWidthToBe);
+		                      	//alert('imgWidthActual' + imgWidthActual);
+			} else {
+		    	// 이미지가 div보다 길쭉한 경우 가로를 div에 맞추고 세로를 잘라낸다
+		    	var imgHeightActual = divWidth * imgAspect;
+		    	var imgHeightToBe = divWidth * divAspect;
+		    	//alert("imgHeightActual" + imgHeightActual);
+		    	//alert("imgHeightToBe" + imgHeightToBe);
+		    	var marginTop = -Math.round((imgHeightActual - imgHeightToBe) / 2);
+		    	img[i].style.cssText = 'width: 100%; height: auto; margin-left: 0; margin-top: '
+		                      	+ marginTop + 'px;';
+		                      	//alert("길");
+			}
+		}
+}
+
+$(window).resize(function(){
+	frame()
+});
+$(document).ready(function(){
+	frame()
+});
+
+</script>
+<script>
+$(document).ready(function(){
+	$('.center').slick({
+		  centerMode: true,
+		  centerPadding: '50px',
+		  slidesToShow: 1,
+		  autoplay: true,
+		  autoplaySpeed: 3000,
+	      arrows: false
+		});
+})
+</script>
 <script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>
 <script type="text/javascript">
 if(!wcs_add) var wcs_add = {};
@@ -1153,4 +1310,4 @@ wcs_do();
 <script type="text/javascript" src="slick-1.8.1/slick/slick.min.js"></script>
 </div>
 </body>
-</html>F
+</html>

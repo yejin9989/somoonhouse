@@ -523,7 +523,7 @@ applyEle.on('click', function(){
 		<div class="center">
 	<%
 	//추천 사례 받아오기
-	query = "select * from REMODELING where Root_area = -1";
+	query = "select * from REMODELING where Root_area = -1 order by Number DESC LIMIT 1";
 	pstmt = conn.prepareStatement(query);
 	rs = pstmt.executeQuery();
 	String recitem[][] = new String[100][18];
@@ -867,7 +867,8 @@ while(rs.next()){
 			&& item[i][4].indexOf("솔트") == -1
 			&& item[i][4].indexOf("바르다") == -1
 			&& item[i][4].indexOf("썬") == -1
-			&& item[i][4].indexOf("굿") == -1)
+			&& item[i][4].indexOf("굿") == -1
+			&& item[i][4].indexOf("AT") == -1)
 		continue;
 	//거리계산//item[i][12] = String.valueOf(Math.sqrt(((x-Float.parseFloat(item[i][10]))*(x-Float.parseFloat(item[i][10])))+((y-Float.parseFloat(item[i][9]))*(y-Float.parseFloat(item[i][9])))));
 	//if(item[i][4].indexOf("오픈하우스") == -1) continue; 오픈하우스를 오픈함
@@ -1237,30 +1238,56 @@ function ajax_click(obj){
 }
 </script>
 <script>
-var div = $(".center"); // 이미지를 감싸는 div
-var img = $(".eotkd"); // 이미지
-var divAspect = 210 / 282; // div의 가로세로비는 알고 있는 값이다
-for(var i=0; i<img.length; i++){
-	var imgAspect = img[i].height / img[i].width;
-	if (imgAspect <= divAspect) {
-   	 	// 이미지가 div보다 납작한 경우 세로를 div에 맞추고 가로는 잘라낸다
-    	var imgWidthActual = div[0].offsetHeight / imgAspect;
-    	var imgWidthToBe = div[0].offsetHeight / divAspect;
-    	var marginLeft = -Math.round((imgWidthActual - imgWidthToBe) / 2);
-    	img[i].style.cssText = 'width: auto; height: 100%; margin-left: '
-                      	+ marginLeft + 'px;';
-                      	//alert('납');
-                      	//alert('imgWidthToBe' + div[0].offsetHeight);
-	} else {
-    	// 이미지가 div보다 길쭉한 경우 가로를 div에 맞추고 세로를 잘라낸다
-    	img[i].style.cssText = '';
-    	var imgHeightActual = div[0].offsetWidth / imgAspect;
-    	var imgHeightToBe = div[0].offsetWidth / divAspect;
-    	var marginTop = Math.round((imgHeightActual - imgHeightToBe) / 2);
-    	img[i].style.cssText = 'width: 100%; height: auto; margin-left: 0; margin-top: '
-                      	+ marginTop + 'px;';
-	}
+function frame(){
+		var div = $(".center div"); // 이미지를 감싸는 div
+		var img = $(".eotkd"); // 이미지
+		var divWidth = div[0].offsetWidth
+		var divHeight = div[0].offsetHeight-10;
+		if(divWidth >= 510){
+			divHeight -= 10;
+			divWidth -= 120;
+			//alert("넓");
+		}
+		else{
+			divWidth -= 110;
+			//alert("안넓");
+		}
+		var divAspect = divHeight / divWidth; // div의 가로세로비는 알고 있는 값이다 세로/가로
+		//alert("divWidth : "+ divWidth);
+		//alert("divHeight : " + divHeight);
+		for(var i=0; i<img.length; i++){
+			var imgAspect = img[i].height / img[i].width;
+			if (imgAspect <= divAspect) {
+		   	 	// 이미지가 div보다 납작한 경우 세로를 div에 맞추고 가로는 잘라낸다
+		    	var imgWidthActual = divHeight / imgAspect;
+		    	var imgWidthToBe = divHeight / divAspect;
+		    	var marginLeft = -Math.round((imgWidthActual - imgWidthToBe) / 2);
+		    	img[i].style.cssText = 'width: auto; height: 100%; margin-left: '
+		                      	+ marginLeft + 'px;';
+		                      	//alert('납');
+		                      	//alert('imgWidthToBe' + imgWidthToBe);
+		                      	//alert('imgWidthActual' + imgWidthActual);
+			} else {
+		    	// 이미지가 div보다 길쭉한 경우 가로를 div에 맞추고 세로를 잘라낸다
+		    	var imgHeightActual = divWidth * imgAspect;
+		    	var imgHeightToBe = divWidth * divAspect;
+		    	//alert("imgHeightActual" + imgHeightActual);
+		    	//alert("imgHeightToBe" + imgHeightToBe);
+		    	var marginTop = -Math.round((imgHeightActual - imgHeightToBe) / 2);
+		    	img[i].style.cssText = 'width: 100%; height: auto; margin-left: 0; margin-top: '
+		                      	+ marginTop + 'px;';
+		                      	//alert("길");
+			}
+		}
 }
+
+$(window).resize(function(){
+	frame()
+});
+$(document).ready(function(){
+	frame()
+});
+
 </script>
 <script>
 $(document).ready(function(){

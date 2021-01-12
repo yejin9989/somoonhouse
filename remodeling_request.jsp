@@ -8,10 +8,6 @@
 <% session.setAttribute("page", "remodeling_form.jsp"); %>
 <%
 
-/*로그인된 세션 아이디(추후개발) 가져오기, 현재 페이지 저장
-String id = session.getAttribute("s_id")+"";
-String now = "_remodeling_form.jsp";*/
-
 //DB에 사용 할 객체들 정의
 Connection conn = DBUtil.getMySQLConnection();
 PreparedStatement pstmt = null;
@@ -29,7 +25,9 @@ String name = session.getAttribute("name")+"";
 
 //신청내용들 받아오기
 String state = request.getParameter("state")+"";
-query = "select * from REMODELING_APPLY";
+if(!s_id.equals("100"))
+	query = "select * from REMODELING_APPLY where Number < 0";
+else query = "select * from REMODELING_APPLY";
 
 //특정상태에 대한 결과를 받아오는 탭일 경우
 if(!state.equals("null") && !state.equals("NULL") && !state.equals("Null") && state != null){
@@ -341,6 +339,13 @@ query="";
 conn.close();
 */
 %>
+<script>
+window.onload = function(){
+	if("<%=s_id%>" != "100" || "<%=s_id%>" == null){
+		history.back();
+	}
+}
+</script>
 <script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>
 <script type="text/javascript">
 if(!wcs_add) var wcs_add = {};
