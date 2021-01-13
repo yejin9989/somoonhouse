@@ -162,7 +162,9 @@ input[type="checkbox"]:checked + label span {
 			<!-- 로그인 구역 -->
 				<div id="admin">👨‍🔧소문난집 관리자 페이지👩‍🔧</div>
 				<div class="mybox" id="check">신청 건 확인</div>
-				<div class="mybox" id="upload">사례 등록</div>
+				<!-- <div class="mybox" id="upload">사례 등록</div> -->
+				<div class="mybox" id="searchurl">아파트 사례정보 검색</div>
+				<!-- <div class="mybox" id="blog">소문난 블로그</div> -->
 				<div class="mybox" id="home">소문난집 홈으로</div>
 			</form>
 	</div>
@@ -185,6 +187,10 @@ conn.close();
 			location.href='item_upload.jsp';
 		else if($(this).attr('id') == "home")
 			location.href='index.jsp';
+		else if($(this).attr('id') == "blog")
+			location.href='https://blog.naver.com/somoonhouse';
+		else if($(this).attr('id') == "searchurl")
+			location.href='manager_search.jsp';
 	})
 </script>
 <script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>

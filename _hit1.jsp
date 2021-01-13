@@ -154,7 +154,7 @@ iframe{
     		<iframe name="myframe" src="<%=url%>" scrolling="yes" frameborder="0">
     		</iframe>
 		</div>
-		<div class="pink"></div>
+		<!-- div class="pink"></div-->
 		<div id="buttonbar">
 			<div id="rem_req_btn"></div>
 		</div>
