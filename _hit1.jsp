@@ -53,6 +53,7 @@ body{
     bottom: 0;
     margin: auto auto;
     box-shadow: 1px -1px 13px 0px #0000002e;
+    overflow: scroll;
 }
 #navbar{
 	height:49px;
@@ -60,7 +61,7 @@ body{
 	max-width:600px;
     position: fixed;
     top: 0;
-    z-index: 10;
+    z-index: 12;
     background:white;
     border-bottom: 1px solid #f7f7f7;
 }
@@ -93,10 +94,13 @@ body{
     cursor: pointer;
 }
 #frame_frame{
-    position: absolute;
+    position: fixed;
     height: 93%;
     width: 100%;
-    bottom: 0;
+    max-width: 600px;
+    left: 0;
+    top: 50px;
+    z-index:10;
 }
 iframe{
     width: 100%;
@@ -105,20 +109,18 @@ iframe{
     border: 0;
 }
 .pink{
-    position: absolute;
+    position: relative;
     height: 10000px;
     width: 100%;
-    background: pink;
-    bottom: 0;
-    z-index:11;
-    overflow-y:scroll;
+    background: none; linear-gradient(45deg, #ff00568f, #00ffd094);
+    z-index:10;
 }
 #buttonbar{
 	width:100%;
 	max-width:600px;
 	height: 57px;
 	background:white;
-	z-index: 10;
+	z-index: 12;
 	position: fixed;
 	bottom: 0;
 	border-top: 1px solid #f7f7f7;
@@ -154,7 +156,7 @@ iframe{
     		<iframe name="myframe" src="<%=url%>" scrolling="yes" frameborder="0">
     		</iframe>
 		</div>
-		<!-- div class="pink"></div-->
+		<div class="pink"></div>
 		<div id="buttonbar">
 			<div id="rem_req_btn"></div>
 		</div>
@@ -175,25 +177,35 @@ $('#x_btn').click(function(){
 
 var mouseon = 0;
 var filter = "win16|win32|win64|mac|macintel";
+function checkMobile(){
+	 
+    var varUA = navigator.userAgent.toLowerCase(); //userAgent 값 얻기
+ 
+    if ( varUA.indexOf('android') > -1) {
+        //안드로이드
+        return "android";
+    } else if ( varUA.indexOf("iphone") > -1||varUA.indexOf("ipad") > -1||varUA.indexOf("ipod") > -1 ) {
+        //IOS
+        return "ios";
+    } else {
+        //아이폰, 안드로이드 외
+        return "other";
+    }
+    
+}
 
 function removepink(){
-	$('.pink').remove();
+	/*$('.pink').remove();*/
+	var pink = $('.pink');
+	pink.css('z-index', '9');
 }
 function appendpink(){
-	var pink = "<div class=\"pink\"></div>"
-	$('#frame_frame').append(pink);
+	/*var pink = "<div class=\"pink\"></div>"
+	$('.container').append(pink);*/
+	var pink = $('.pink');
+	pink.css('z-index', '11');
 }
 
-$('#buttonbar').on('mouseover', function(){
-	if(filter.indexOf( navigator.platform.toLowerCase() ) < 0){
-		removepink();
-	}
-})
-$('#navbar').on('mouseover', function(){
-	if(filter.indexOf( navigator.platform.toLowerCase() ) < 0){
-		removepink();
-	}
-})
 $('iframe').on('mouseover', function(){
 	if(filter.indexOf( navigator.platform.toLowerCase() ) < 0){
 		appendpink();
@@ -204,15 +216,35 @@ $('body').on('mouseover', function(){
 		appendpink();
 	}
 })
-$('#frame_frame').on('click', function(){
+$('.container').on('scroll', function(){
 	if(filter.indexOf( navigator.platform.toLowerCase() ) < 0){
-		alert('im pink');
+		removepink();
+		setTimeout(function() {
+			appendpink();
+		}, 2000);
 	}
 })
-$('.pink').on('scroll', function(){
-		alert('im scrolling');
+
+function frame(){
+	var framediv = $('#frame_frame');
+	var windowWidth = $( window ).width();
+	var divWidth = framediv.width();
+	
+	framediv.css('left', (windowWidth-divWidth)/2);
+}
+
+$(document).ready(function(){
+	$('.container').scrollTop(100);
+	mouseon = 0;
+	frame();
+	if(filter.indexOf( navigator.platform.toLowerCase() ) >= 0){
+		removepink();
+	}
 })
 
+$(window).resize(function(){
+	frame();
+});
 
 </script>
 </html>
