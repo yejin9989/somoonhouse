@@ -168,11 +168,6 @@ border:1px solid #9d9d9d;
 border-radius: 3px;
 }
 
-#jusobtn{
-width:70px;
-margin-right:5px;
-}
-
 #search_item2>div>select{
 border: none;
 padding: 5px;
@@ -207,8 +202,8 @@ overflow: hidden;
     line-height: 48px;
 }
 .ajax_click{
-	text-align: center;
-    padding: 11% 0 0%;
+    text-align: center;
+    padding: 3% 0 0%;
 }
 .center img{
 }
@@ -221,6 +216,20 @@ overflow: hidden;
 	height:400px;
 	border-radius:10px;
 	overflow: hidden;
+}
+#searcharea{
+    margin: auto;
+    width: 70%;
+    position: relative;
+    padding: 11px 0px 4px;
+}
+#jusobtn{
+	width: 75px;
+    height: 37px;
+    border-radius: 10px;
+    border: 0;
+    background: #5babff;
+    color: white;
 }
 .item{
 width: 45%;
@@ -381,13 +390,26 @@ color: white;
 font-size: 16px;
 }
 input#search {
-background:url("img/search_btn.png");
-background-repeat: no-repeat;
-width:30px;
-height:30px;
-border: 0;
-background-size: 30px 30px;
-float:left;
+    background: url(img/search_btn.png);
+    background-repeat: no-repeat;
+    width: 23px;
+    height: 23px;
+    border: 0;
+    background-size: 23px 23px;
+    right: 3%;
+    display: inline-block;
+    box-sizing: content-box;
+    padding: 0;
+    top: 49%;
+    transform: translate(0, -50%);
+    position: absolute;
+}
+#bdNm{
+    height: 27px;
+    width: 76%;
+    border-radius: 15px;
+    border: 1px solid #c3c3c3;
+    padding: 7px 17px;
 }
 @media (max-width : 768px){
 	#somun_logo{
@@ -454,7 +476,7 @@ function goPopup(){
 function jusoCallBack(roadFullAddr,roadAddrPart1,addrDetail,roadAddrPart2,engAddr, jibunAddr, zipNo, admCd, rnMgtSn, bdMgtSn,detBdNmList,bdNm,bdKdcd,siNm,sggNm,emdNm,liNm,rn,udrtYn,buldMnnm,buldSlno,mtYn,lnbrMnnm,lnbrSlno,emdNo,entX,entY){
 		// 팝업페이지에서 주소입력한 정보를 받아서, 현 페이지에 정보를 등록합니다.
 			document.form.roadFullAddr.value = roadFullAddr;
-			document.form.roadAddrPart1.value = roadAddrPart1;
+			/*document.form.roadAddrPart1.value = roadAddrPart1;
 			document.form.roadAddrPart2.value = roadAddrPart2;
 			document.form.addrDetail.value = addrDetail;
 			document.form.engAddr.value = engAddr;
@@ -479,7 +501,7 @@ function jusoCallBack(roadFullAddr,roadAddrPart1,addrDetail,roadAddrPart2,engAdd
 			document.form.lnbrSlno.value = lnbrSlno;
 			document.form.emdNo.value = emdNo;
 			document.form.entX.value = entX;
-			document.form.entY.value = entY;
+			document.form.entY.value = entY;*/
 }
 
 </script>
@@ -505,12 +527,6 @@ applyEle.on('click', function(){
 </script>
 
 <div id="somun_navbar">
-	    <!-- 
-	<input type="button" onClick="goPopup();" value="주소찾기"/>
-    <input type="text" id="bdNm"  name="bdNm" />
-    <input type="text" id="building" name="building" />동
-	<input id="search" type="submit" value="검색">
-	-->
 	<div id="somun_menu"></div>
 	<div style="float:left;width:100%;height:max-content;margin-bottom:10px;text-align:center;">
 	<div id="somun_logo"><a href="index.jsp"><img style="width:105px;"src="img/somunlogo.png"></a></div>
@@ -561,7 +577,14 @@ applyEle.on('click', function(){
 	%>
 			</div>
 	</div>
-		<div id="somun_search">
+	<form action="index2.jsp" method="GET">
+	<div id="searcharea">
+		<input type="button" onClick="goPopup();" value="주소찾기" id="jusobtn"/>
+    	<input type="text" id="bdNm"  name="bdNm" placeholder="아파트명, 회사명으로 사례를 찾아보세요"/>
+		<input id="search" type="submit" value="">
+	</div>
+	</form>
+	<div id="somun_search">
 		<!-- div class = "search_item" id="search_item1">
 			<input type="text" id="bdNm"  name="bdNm" placeholder = "아파트 명으로 찾기">
 			<input type="submit" value="">
@@ -710,12 +733,12 @@ applyEle.on('click', function(){
 	</div>
     <div>
     <form id="form" name="form" method="POST" action="remodeling.jsp">
-    <!--  
+      
     <input type="button" style="height:33px;width:70px;background-color:white;border:1px solid #9d9d9d;"onClick="goPopup();" value="주소찾기"/>
     <input type="text"  style="width:170px;height:30px;" id="bdNm"  name="bdNm" />
     <input type="text" style="width:40px;height:30px;" id="building" name="building" />동
 	<input id="search" type="submit" value="검색">
-    -->
+    
     <%String classes = "0"; %>
     	<input type="hidden"  style="width:500px;" id="jibunAddr"  name="jibunAddr" />
     	<input type="hidden"  style="width:500px;" id="roadFullAddr"  name="roadFullAddr" />

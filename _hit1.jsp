@@ -118,21 +118,41 @@ iframe{
 #buttonbar{
 	width:100%;
 	max-width:600px;
-	height: 57px;
+	height: 66px;
 	background:white;
 	z-index: 12;
 	position: fixed;
 	bottom: 0;
 	border-top: 1px solid #f7f7f7;
 }
+span{
+    color: #4578f3;
+    font-weight: bold;
+}
+#copywrite{
+	display: inline-block;
+    width: 54%;
+    padding: 16px;
+    text-align: center;
+    height: fit-content;
+    position: relative;
+    top: 50%;
+    transform: translate(0px, -50%);
+    font-size: 8pt;
+    z-index: 13;
+    color: #454545;
+}
 #rem_req_btn{
     width: 145px;
     height: 56px;
     position: absolute;
     right: 5%;
+    top: 50%;
+    transform: translate(0, -50%);
     background-image: url(img/reqbtn2.png);
     background-size: 145px 56px;
     cursor: pointer;
+    display: inline-block;
 }
 @media(min-width:450px){
 	#rem_req_btn{
@@ -158,6 +178,7 @@ iframe{
 		</div>
 		<div class="pink"></div>
 		<div id="buttonbar">
+			<div id="copywrite">소문난집을 통해 상담신청을 하셔야<br> <span>비교견적</span>을 받아보실 수 있습니다.</div>
 			<div id="rem_req_btn"></div>
 		</div>
 	</div>
