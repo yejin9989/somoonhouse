@@ -124,7 +124,6 @@ color: #31b1f2;
 color: #31b1f2;
 }
 #somun_search{
-float:left;
 width:100%;
 min-width:40px;
 max-width:700px;
@@ -400,7 +399,7 @@ input#search {
     display: inline-block;
     box-sizing: content-box;
     padding: 0;
-    top: 49%;
+    top: 53%;
     transform: translate(0, -50%);
     position: absolute;
 }
@@ -476,7 +475,7 @@ function goPopup(){
 function jusoCallBack(roadFullAddr,roadAddrPart1,addrDetail,roadAddrPart2,engAddr, jibunAddr, zipNo, admCd, rnMgtSn, bdMgtSn,detBdNmList,bdNm,bdKdcd,siNm,sggNm,emdNm,liNm,rn,udrtYn,buldMnnm,buldSlno,mtYn,lnbrMnnm,lnbrSlno,emdNo,entX,entY){
 		// 팝업페이지에서 주소입력한 정보를 받아서, 현 페이지에 정보를 등록합니다.
 			document.form.roadFullAddr.value = roadFullAddr;
-			/*document.form.roadAddrPart1.value = roadAddrPart1;
+			document.form.roadAddrPart1.value = roadAddrPart1;
 			document.form.roadAddrPart2.value = roadAddrPart2;
 			document.form.addrDetail.value = addrDetail;
 			document.form.engAddr.value = engAddr;
@@ -501,7 +500,7 @@ function jusoCallBack(roadFullAddr,roadAddrPart1,addrDetail,roadAddrPart2,engAdd
 			document.form.lnbrSlno.value = lnbrSlno;
 			document.form.emdNo.value = emdNo;
 			document.form.entX.value = entX;
-			document.form.entY.value = entY;*/
+			document.form.entY.value = entY;
 }
 
 </script>
@@ -578,11 +577,7 @@ applyEle.on('click', function(){
 			</div>
 	</div>
 	<form action="index2.jsp" method="GET">
-	<div id="searcharea">
-		<input type="button" onClick="goPopup();" value="주소찾기" id="jusobtn"/>
-    	<input type="text" id="bdNm"  name="bdNm" placeholder="아파트명, 회사명으로 사례를 찾아보세요"/>
-		<input id="search" type="submit" value="">
-	</div>
+
 	</form>
 	<div id="somun_search">
 		<!-- div class = "search_item" id="search_item1">
@@ -611,7 +606,6 @@ applyEle.on('click', function(){
 		<input class="area1" onClick="ajax_click(this)" type="radio" name="Daegu" id="dalseong-gun" value="148"<%if(Arrays.asList(request_areas).contains("148")) out.println("checked");%>><label for="dalseong-gun" class="mylabel">달성군</label>
 		<!-- input class="area1" onClick="ajax_click(this)" type="submit" class="mylabel" style="width:48px; padding: 7px 0px; font-size:15px;" value="검색"-->
 		</div>
-		<div class="line">  </div>
 		<!--
 		<div style="width: 100%;margin: auto auto;left: 5%;position: relative;">
 		<div class="apartmen2" style="text-align: center; display: inline-block; width:79%; position: relative; float:left">
@@ -732,14 +726,15 @@ applyEle.on('click', function(){
 
 	</div>
     <div>
-    <form id="form" name="form" method="POST" action="remodeling.jsp">
-      
-    <input type="button" style="height:33px;width:70px;background-color:white;border:1px solid #9d9d9d;"onClick="goPopup();" value="주소찾기"/>
-    <input type="text"  style="width:170px;height:30px;" id="bdNm"  name="bdNm" />
-    <input type="text" style="width:40px;height:30px;" id="building" name="building" />동
-	<input id="search" type="submit" value="검색">
+    <form id="form" name="form" method="POST" action="index2.jsp">
+      	<div id="searcharea">
+		<input type="button" onClick="goPopup();" value="주소찾기" id="jusobtn"/>
+    	<input type="text" id="bdNm"  name="bdNm" placeholder="아파트명, 회사명으로 사례를 찾아보세요"/>
+		<input id="search" type="submit" value="">
+		</div>
     
     <%String classes = "0"; %>
+    	<input type="hidden" style="width:40px;height:30px;" id="building" name="building" />
     	<input type="hidden"  style="width:500px;" id="jibunAddr"  name="jibunAddr" />
     	<input type="hidden"  style="width:500px;" id="roadFullAddr"  name="roadFullAddr" />
 		<input type="hidden"  style="width:500px;" id="roadAddrPart1"  name="roadAddrPart1" />
