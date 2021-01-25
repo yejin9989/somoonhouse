@@ -40,6 +40,8 @@
 	String budget = request.getParameter("budget");
 	String visit = request.getParameter("visit");
 	String compare = request.getParameter("compare");
+	String call = request.getParameter("call");
+	//String password = phone.substring(phone.length()-4, phone.length());
 	java.sql.Date d = null;
 	String state = "0"; //처리상태 - 0:신청완료 1:업체전달완료 2:상담완료 3:거래성사
 	
@@ -68,7 +70,8 @@
 			due == null || 
 			budget == null ||
 			visit == null ||
-			compare == null){
+			compare == null ||
+			call == null){
 		%>
 		<script>
 		alert('모든항목에 답변 해주세요.');
@@ -94,7 +97,7 @@
 	d = java.sql.Date.valueOf(todayformat);
 
 	//업데이트하기
-	sql = "INSERT INTO REMODELING_APPLY VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	sql = "INSERT INTO REMODELING_APPLY (Number, Item_num, Name, Phone, Address, Area, Due, Budget, Visit, Compare, Apply_date, State, Calling, Pw) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, password(?))";
 	pstmt = conn.prepareStatement(sql);
 	pstmt.setInt(1, num);
 	pstmt.setString(2, item_num);
@@ -108,6 +111,8 @@
 	pstmt.setString(10, compare);
 	pstmt.setDate(11, d);
 	pstmt.setString(12, state);
+	pstmt.setString(13, call);
+	pstmt.setString(14, "1234");
 	
 	if(error == 0){
 		pstmt.executeUpdate();

@@ -80,9 +80,6 @@ text-decoration:none;
 .tag{
 color:white; background-color:#ccc; border-radius:5px;padding:2px;
 }
-#search{
-padding:6px; position:relative; top:-1px; background-color:white; border: 1px solid #9d9d9d;height:33px;
-}
 .slick-prev{
 left:5px;
 z-index: 10;
@@ -124,7 +121,6 @@ color: #31b1f2;
 color: #31b1f2;
 }
 #somun_search{
-float:left;
 width:100%;
 min-width:40px;
 max-width:700px;
@@ -168,11 +164,6 @@ border:1px solid #9d9d9d;
 border-radius: 3px;
 }
 
-#jusobtn{
-width:70px;
-margin-right:5px;
-}
-
 #search_item2>div>select{
 border: none;
 padding: 5px;
@@ -207,8 +198,8 @@ overflow: hidden;
     line-height: 48px;
 }
 .ajax_click{
-	text-align: center;
-    padding: 11% 0 0%;
+    text-align: center;
+    padding: 3% 0 0%;
 }
 .center img{
 }
@@ -221,6 +212,27 @@ overflow: hidden;
 	height:400px;
 	border-radius:10px;
 	overflow: hidden;
+}
+#searcharea{
+    margin: auto;
+    width: 75%;
+    position: relative;
+    padding: 11px 0px 4px;
+}
+#jusobtn{
+	appearance: none;
+	-webkit-appearance: none;
+	-webkit-border-radius: 0;
+	min-width: 50px;
+    width: 70px;
+    height: 37px;
+    border-radius: 14px;
+    border: 0;
+    background: #5babff;
+    color: white;
+    position: absolute;
+    left: 4px;
+    bottom: 7px;
 }
 .item{
 width: 45%;
@@ -381,13 +393,26 @@ color: white;
 font-size: 16px;
 }
 input#search {
-background:url("img/search_btn.png");
-background-repeat: no-repeat;
-width:30px;
-height:30px;
-border: 0;
-background-size: 30px 30px;
-float:left;
+    background: url(img/search_btn.png);
+    background-repeat: no-repeat;
+    width: 23px;
+    height: 23px;
+    border: 0;
+    background-size: 23px 23px;
+    right: 2%;
+    display: inline-block;
+    box-sizing: content-box;
+    padding: 0;
+    top: 54%;
+    transform: translate(0, -50%);
+    position: absolute;
+}
+#bdNm{
+	height: 27px;
+    width: 83%;
+    border-radius: 15px;
+    border: 1px solid #c3c3c3;
+    padding: 7px 0px 7px 87px;
 }
 @media (max-width : 768px){
 	#somun_logo{
@@ -395,7 +420,6 @@ float:left;
 	#somun_search{
 	left:0px;
 	}
-}
 @media (max-width : 510px){
 	.center{
 		height: 220px;
@@ -406,18 +430,32 @@ float:left;
 	.center_img div{
 		height:200px;
 	}
+	#bdNm{
+	font-size:9pt;
+	width: 76%;
+	padding-left:77px;
+	}
+	input#search{
+	right: 6%;
+	}
+	#searcharea{
+	width: 85%;
+	}
 }
 @media (max-width : 370px){
-.item img{
-width:140px;
-}
-.itemdiv{
-overflow:hidden;
-border-radius: 10px;
-width:130px;
-height:150px;
-overflow:hidden;
-}
+	.item img{
+	width:140px;
+	}
+	.itemdiv{
+	overflow:hidden;
+	border-radius: 10px;
+	width:130px;
+	height:150px;
+	overflow:hidden;
+	}
+	input#search{
+	right: 1%;
+	}
 }
 
 </style>
@@ -505,12 +543,6 @@ applyEle.on('click', function(){
 </script>
 
 <div id="somun_navbar">
-	    <!-- 
-	<input type="button" onClick="goPopup();" value="주소찾기"/>
-    <input type="text" id="bdNm"  name="bdNm" />
-    <input type="text" id="building" name="building" />동
-	<input id="search" type="submit" value="검색">
-	-->
 	<div id="somun_menu"></div>
 	<div style="float:left;width:100%;height:max-content;margin-bottom:10px;text-align:center;">
 	<div id="somun_logo"><a href="index.jsp"><img style="width:105px;"src="img/somunlogo.png"></a></div>
@@ -549,7 +581,7 @@ applyEle.on('click', function(){
     		imgstr = imgstr.replaceAll("%", "%25");
     		%>
 			<div><div class="center_img"><div>
-			<a href = "_hit.jsp?num=<%=recitem[i][0]%>" target="_self">
+			<a href = "_hit1.jsp?num=<%=recitem[i][0]%>" target="_self">
     		<img src="<%=imgstr%>" class="eotkd">
     		</a>
     		</div></div></div>
@@ -561,7 +593,10 @@ applyEle.on('click', function(){
 	%>
 			</div>
 	</div>
-		<div id="somun_search">
+	<form action="index.jsp" method="GET">
+
+	</form>
+	<div id="somun_search">
 		<!-- div class = "search_item" id="search_item1">
 			<input type="text" id="bdNm"  name="bdNm" placeholder = "아파트 명으로 찾기">
 			<input type="submit" value="">
@@ -588,7 +623,6 @@ applyEle.on('click', function(){
 		<input class="area1" onClick="ajax_click(this)" type="radio" name="Daegu" id="dalseong-gun" value="148"<%if(Arrays.asList(request_areas).contains("148")) out.println("checked");%>><label for="dalseong-gun" class="mylabel">달성군</label>
 		<!-- input class="area1" onClick="ajax_click(this)" type="submit" class="mylabel" style="width:48px; padding: 7px 0px; font-size:15px;" value="검색"-->
 		</div>
-		<div class="line">  </div>
 		<!--
 		<div style="width: 100%;margin: auto auto;left: 5%;position: relative;">
 		<div class="apartmen2" style="text-align: center; display: inline-block; width:79%; position: relative; float:left">
@@ -709,14 +743,15 @@ applyEle.on('click', function(){
 
 	</div>
     <div>
-    <form id="form" name="form" method="POST" action="remodeling.jsp">
-    <!--  
-    <input type="button" style="height:33px;width:70px;background-color:white;border:1px solid #9d9d9d;"onClick="goPopup();" value="주소찾기"/>
-    <input type="text"  style="width:170px;height:30px;" id="bdNm"  name="bdNm" />
-    <input type="text" style="width:40px;height:30px;" id="building" name="building" />동
-	<input id="search" type="submit" value="검색">
-    -->
+    <form id="form" name="form" method="POST" action="index.jsp">
+      	<div id="searcharea">
+			<input type="text" id="bdNm"  name="bdNm" placeholder="아파트명, 회사명으로 사례를 찾아보세요"/>
+			<input type="button" onClick="goPopup();" value="주소찾기" id="jusobtn"/>
+    		<input id="search" type="submit" value="">
+		</div>
+    
     <%String classes = "0"; %>
+    	<input type="hidden" style="width:40px;height:30px;" id="building" name="building" />
     	<input type="hidden"  style="width:500px;" id="jibunAddr"  name="jibunAddr" />
     	<input type="hidden"  style="width:500px;" id="roadFullAddr"  name="roadFullAddr" />
 		<input type="hidden"  style="width:500px;" id="roadAddrPart1"  name="roadAddrPart1" />
@@ -744,7 +779,7 @@ applyEle.on('click', function(){
 		<input type="hidden"  style="width:500px;" id="entX"  name="entX" />
 		<input type="hidden"  style="width:500px;" id="entY"  name="entY" />
 	</form>	
-    <div id="content" style="float:left;width:100%;margin:10px auto;">
+    <div id="content" style="float:left;width:100%;margin:14px auto;">
     
       <%
     String clientId = "G8MVoxXfGciyZW5dF4p1";//애플리케이션 클라이언트 아이디값";
@@ -800,8 +835,8 @@ String xx = request.getParameter("entX");
 String yy = request.getParameter("entY");
 float x = 0;
 float y = 0;
-if (xx != null) x = Float.parseFloat(xx);
-if (yy != null) y = Float.parseFloat(yy);
+if (xx != null && !xx.equals("")) x = Float.parseFloat(xx);
+if (yy != null && !yy.equals("")) y = Float.parseFloat(yy);
 pstmt = null;
 query = "";
 conn = DBUtil.getMySQLConnection();
@@ -809,7 +844,14 @@ rs = null;
 String build = null;
 build = request.getParameter("bdNm");
 query = "Select * from REMODELING";
-if(request_areas != null && !request_areas[0].equals("all")){
+
+if(build != "" && build != null && !build.equals("all")){
+	query += " where Apart_name Like \"%"+build+"%\"";
+	query += " or Title Like \"%"+build+"%\"";
+	query += " or Company Like \"%"+build+"%\"";
+}
+
+else if(request_areas != null && !request_areas[0].equals("all")){
 	query += " Where Second_area = " + request_areas[0];
 	for(i = 1; i < request_areas.length; i++){
 		query += " Or Second_area = " + request_areas[i];
@@ -945,7 +987,7 @@ for(i = 0; i < item.length; i++){
     	while(rs.next()){
     		%>
     		<div class="itemdiv">
-    		<a href = "_hit.jsp?num=<%=item[i][0]%>" target="_self">
+    		<a href = "_hit1.jsp?num=<%=item[i][0]%>" target="_self">
     		<img src="<%=rs.getString("Path").replaceAll("%25", "%").replaceAll("%", "%25")%>">
     		</a>
     		</div>
@@ -958,7 +1000,7 @@ for(i = 0; i < item.length; i++){
 		</script>
 		</div>
 		<!-- 견적요청버튼 -->
-		<a href = "_hit.jsp?num=<%=item[i][0]%>" target="_self">
+		<a href = "_hit1.jsp?num=<%=item[i][0]%>" target="_self">
 		<div class="item">
 		<div class="itemdiv">
 		<%classes = Integer.toString(Integer.parseInt(classes)+1);%>

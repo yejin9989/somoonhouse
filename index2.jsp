@@ -80,9 +80,6 @@ text-decoration:none;
 .tag{
 color:white; background-color:#ccc; border-radius:5px;padding:2px;
 }
-#search{
-padding:6px; position:relative; top:-1px; background-color:white; border: 1px solid #9d9d9d;height:33px;
-}
 .slick-prev{
 left:5px;
 z-index: 10;
@@ -218,17 +215,21 @@ overflow: hidden;
 }
 #searcharea{
     margin: auto;
-    width: 70%;
+    width: 75%;
     position: relative;
     padding: 11px 0px 4px;
 }
 #jusobtn{
-	width: 75px;
+	min-width: 50px;
+    width: 70px;
     height: 37px;
-    border-radius: 10px;
+    border-radius: 14px;
     border: 0;
     background: #5babff;
     color: white;
+    position: absolute;
+    left: 4px;
+    bottom: 7px;
 }
 .item{
 width: 45%;
@@ -395,20 +396,26 @@ input#search {
     height: 23px;
     border: 0;
     background-size: 23px 23px;
-    right: 3%;
+    right: 2%;
     display: inline-block;
     box-sizing: content-box;
     padding: 0;
-    top: 53%;
+    top: 54%;
     transform: translate(0, -50%);
     position: absolute;
 }
 #bdNm{
-    height: 27px;
-    width: 76%;
+	height: 27px;
+    width: 83%;
     border-radius: 15px;
     border: 1px solid #c3c3c3;
-    padding: 7px 17px;
+    padding: 7px 0px 7px 87px;
+}
+input{
+/*ios대응*/
+appearance: none;
+-webkit-appearance: none;
+-webkit-border-radius: 0;
 }
 @media (max-width : 768px){
 	#somun_logo{
@@ -416,7 +423,6 @@ input#search {
 	#somun_search{
 	left:0px;
 	}
-}
 @media (max-width : 510px){
 	.center{
 		height: 220px;
@@ -427,18 +433,32 @@ input#search {
 	.center_img div{
 		height:200px;
 	}
+	#bdNm{
+	font-size:9pt;
+	width: 76%;
+	padding-left:77px;
+	}
+	input#search{
+	right: 6%;
+	}
+	#searcharea{
+	width: 85%;
+	}
 }
-@media (max-width : 370px){
-.item img{
-width:140px;
-}
-.itemdiv{
-overflow:hidden;
-border-radius: 10px;
-width:130px;
-height:150px;
-overflow:hidden;
-}
+@media (max-width : 380px){
+	.item img{
+	width:140px;
+	}
+	.itemdiv{
+	overflow:hidden;
+	border-radius: 10px;
+	width:130px;
+	height:150px;
+	overflow:hidden;
+	}
+	input#search{
+	right: 1%;
+	}
 }
 
 </style>
@@ -728,9 +748,9 @@ applyEle.on('click', function(){
     <div>
     <form id="form" name="form" method="POST" action="index2.jsp">
       	<div id="searcharea">
-		<input type="button" onClick="goPopup();" value="주소찾기" id="jusobtn"/>
-    	<input type="text" id="bdNm"  name="bdNm" placeholder="아파트명, 회사명으로 사례를 찾아보세요"/>
-		<input id="search" type="submit" value="">
+			<input type="text" id="bdNm"  name="bdNm" placeholder="아파트명, 회사명으로 사례를 찾아보세요"/>
+			<input type="button" onClick="goPopup();" value="주소찾기" id="jusobtn"/>
+    		<input id="search" type="submit" value="">
 		</div>
     
     <%String classes = "0"; %>
@@ -762,7 +782,7 @@ applyEle.on('click', function(){
 		<input type="hidden"  style="width:500px;" id="entX"  name="entX" />
 		<input type="hidden"  style="width:500px;" id="entY"  name="entY" />
 	</form>	
-    <div id="content" style="float:left;width:100%;margin:10px auto;">
+    <div id="content" style="float:left;width:100%;margin:14px auto;">
     
       <%
     String clientId = "G8MVoxXfGciyZW5dF4p1";//애플리케이션 클라이언트 아이디값";
@@ -818,8 +838,8 @@ String xx = request.getParameter("entX");
 String yy = request.getParameter("entY");
 float x = 0;
 float y = 0;
-if (xx != null) x = Float.parseFloat(xx);
-if (yy != null) y = Float.parseFloat(yy);
+if (xx != null && !xx.equals("")) x = Float.parseFloat(xx);
+if (yy != null && !yy.equals("")) y = Float.parseFloat(yy);
 pstmt = null;
 query = "";
 conn = DBUtil.getMySQLConnection();
@@ -827,7 +847,14 @@ rs = null;
 String build = null;
 build = request.getParameter("bdNm");
 query = "Select * from REMODELING";
-if(request_areas != null && !request_areas[0].equals("all")){
+
+if(build != "" && build != null && !build.equals("all")){
+	query += " where Apart_name Like \"%"+build+"%\"";
+	query += " or Title Like \"%"+build+"%\"";
+	query += " or Company Like \"%"+build+"%\"";
+}
+
+else if(request_areas != null && !request_areas[0].equals("all")){
 	query += " Where Second_area = " + request_areas[0];
 	for(i = 1; i < request_areas.length; i++){
 		query += " Or Second_area = " + request_areas[i];

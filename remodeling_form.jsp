@@ -215,6 +215,10 @@ String item_num = request.getParameter("item_num")+"";
 		<input type="radio" name="compare" value="1" id="compare1"><label for="compare1">예</label>
 		<input type="radio" name="compare" value="0" id="compare0"><label for="compare0">아니오</label>
 	</div>
+	<div class="calldiv item"><span class="nametag">연락방식</span><span style="font-size:10pt;display:block;margin-bottom:10px;line-height:1.3em;">업체 배정 후 마이페이지에서 업체별 연락처를 확인하실 수 있습니다</span>
+    	<input type="radio" name="call" id="callplease" value="1"><label for="callplease" class="please">전화주세요</label>
+    	<input type="radio" name="call" id="callwill"  value="0"><label for="callwill"  class="will">전화 걸게요</label>
+    </div>
 	<input type="submit" value="무료상담신청">
 	</form>
 	</div>

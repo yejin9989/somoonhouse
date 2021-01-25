@@ -33,10 +33,10 @@ else query = "select * from REMODELING_APPLY";
 if(!state.equals("null") && !state.equals("NULL") && !state.equals("Null") && state != null){
 	query += " where State = " + state;
 }
-query += " order by State asc";
+query += " order by State asc, Number desc";
 pstmt = conn.prepareStatement(query);
 rs = pstmt.executeQuery();
-ArrayList<HashMap<String, String>> itemlist = new ArrayList<HashMap<String, String>>();
+LinkedList<HashMap<String, String>> itemlist = new LinkedList<HashMap<String, String>>();
 
 while(rs.next()){
 	HashMap<String, String> itemmap = new HashMap<String, String>();
@@ -57,6 +57,7 @@ while(rs.next()){
 	String item_company = "";
 	String item_title = "";
 	String item_url = "";
+	String item_calling = rs.getString("Calling")+"";
 	
 	//통합 신청일 경우(item number가 0임)
 	if(item_itemnum.equals("0")){
@@ -97,6 +98,7 @@ while(rs.next()){
 	itemmap.put("compare", item_compare);
 	itemmap.put("applydate", item_applydate);
 	itemmap.put("state", item_state);
+	itemmap.put("calling", item_calling);
 	
 	itemlist.add(itemmap);
 }
@@ -105,7 +107,7 @@ while(rs.next()){
 query = "Select * from COMPANY where State = 1";
 pstmt = conn.prepareStatement(query);
 rs = pstmt.executeQuery();
-ArrayList<HashMap<String, String>> company = new ArrayList<HashMap<String, String>>();
+LinkedList<HashMap<String, String>> company = new LinkedList<HashMap<String, String>>();
 while(rs.next()){
 	HashMap<String, String> mymap = new HashMap<String, String>();
 	mymap.put("id", rs.getString("Id"));
@@ -205,6 +207,12 @@ input[type="checkbox"]:checked + label span {
     border-bottom: 3px dotted #e5e5e5;
     width: 91%;
 }
+.phone :after{
+	content:"";
+	
+	
+	border: 1px solid black;
+}
 .item_wrapper span{
 	display: block;
 	font-size:9pt;
@@ -248,6 +256,11 @@ input[type="checkbox"]:checked + label span {
     height: 32px;
     background: #eaeaea;
 }
+textarea{
+	width: 100%;
+    font-size: 9pt;
+    overflow: hidden;
+}
 @media (max-width : 400px){
 /*반응형*/
 	.item {
@@ -284,7 +297,7 @@ input[type="checkbox"]:checked + label span {
     		<div class="item_wrapper">
     			<div class="info"><span><%out.print(hm.get("company"));%></span><a href="<%out.println(hm.get("url"));%>"><%out.println(hm.get("title"));%></a></div>
     			<div class="info"><span>이름</span> <%out.println(hm.get("name"));%></div>
-    			<div class="info"><span>전화번호</span> <%out.println(hm.get("phone"));%></div>
+    			<div class="info phone"><span>전화번호</span> <%out.println(hm.get("phone"));%></div>
     			<div class="info"><span>주소</span> <%out.println(hm.get("address"));%></div>
     			<div class="info"><span>평수</span> <%out.println(hm.get("area"));%></div>
     			<div class="info"><span>예정일</span> <%out.println(hm.get("due"));%></div>
@@ -292,11 +305,16 @@ input[type="checkbox"]:checked + label span {
     			<div class="info"><span>방문상담</span> <%if(hm.get("visit").equals("1")) out.println("예"); else out.println("아니오");%></div>
     			<div class="info"><span>비교견적</span> <%if(hm.get("compare").equals("1")) out.println("예"); else out.println("아니오");%></div>
     			<div class="info"><span>신청날짜</span> <%out.println(hm.get("applydate"));%></div>
+    			<div class="info"><span>연락방식</span> <%if(hm.get("calling").equals("1")) out.println("업체의 전화를 기다리고 있습니다."); else out.println("고객님이 직접 전화하실 예정입니다.");%></div>
     			<div class="info"><span>처리상태</span> <div class="state"><%if(hm.get("state").equals("0")){%><div id="stt0"><% out.println("신청완료");%></div><%}%>
     																	<%if(hm.get("state").equals("1")){%><div id="stt1"><% out.println("업체전달완료");%></div><%}%>
     																	<%if(hm.get("state").equals("2")){%><div id="stt2"><% out.println("상담완료");%></div><%}%>
     																	<%if(hm.get("state").equals("3")){%><div id="stt3"><% out.println("거래성사");%></div><%}%>
     												</div>
+    			</div>
+    			<div class="info"><span>고객페이지</span>
+    			<textarea id="textarea<%out.print(hm.get("number"));%>">https://somoonhouse.com/customer_login.jsp?customer_num=<%out.print(hm.get("number"));%></textarea>
+    			<input type="button" value="링크복사" onclick="myFunction('textarea<%out.print(hm.get("number"));%>')">
     			</div>
     			<%// 처리상태 - 0:신청완료 1:업체전달완료 2:상담완료 3:거래성사 %>
     			<div class="company">
@@ -339,6 +357,15 @@ query="";
 conn.close();
 */
 %>
+<script>
+function myFunction(a) {
+	var copyText = document.getElementById(a);
+	copyText.select();
+	copyText.setSelectionRange(0, 99999); /*For mobile devices*/
+	document.execCommand("copy");
+	alert("복사되었습니다");
+	}
+</script>
 <script>
 window.onload = function(){
 	if("<%=s_id%>" != "100" || "<%=s_id%>" == null){

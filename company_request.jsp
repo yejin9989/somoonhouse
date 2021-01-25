@@ -32,22 +32,30 @@ query = "select * from ASSIGNED";
 if(!s_id.equals("null") && !s_id.equals("NULL") && !s_id.equals("Null") && s_id != null && !s_id.equals("")){
 	query += " where Company_num = " + s_id;
 }
+else{
+	query += " where Apply_num = -1";
+}
+query += " order by Apply_num desc";
 pstmt = conn.prepareStatement(query);
 rs = pstmt.executeQuery();
 
-HashMap<String, String> assignedmap = new HashMap<String, String>();
+LinkedHashMap<String, String> assignedmap = new LinkedHashMap<String, String>();
 while(rs.next()){
 	
 	String apply_num = rs.getString("Apply_num");
 	String state_eng = rs.getString("State");
 	String state = "";
 	if(state_eng.equals("0"))
-		state = "상담 중";
+		state = "상담 대기";
 	else if(state_eng.equals("1"))
-		state = "상담 완료";
+		state = "상담 중";
 	else if(state_eng.equals("2"))
-		state = "계약 대기 중";
+		state = "상담 완료";
 	else if(state_eng.equals("3"))
+		state = "통화 불가";
+	else if(state_eng.equals("4"))
+		state = "계약 대기 중";
+	else if(state_eng.equals("5"))
 		state = "계약 성사";
 	else
 		state = "계약 불발";
@@ -57,10 +65,10 @@ while(rs.next()){
 }
 
 //신청정보 가져오기
-ArrayList<HashMap<String, String>> applylist = new ArrayList<HashMap<String, String>>();
+LinkedList<LinkedHashMap<String, String>> applylist = new LinkedList<LinkedHashMap<String, String>>();
 
 for(String key : assignedmap.keySet()){
-	HashMap applymap = new HashMap<String, String>();
+	LinkedHashMap applymap = new LinkedHashMap<String, String>();
 	
 	query = "select * from REMODELING_APPLY where Number = ?";
 	pstmt = conn.prepareStatement(query);
@@ -79,6 +87,7 @@ for(String key : assignedmap.keySet()){
 		String item_compare = rs.getString("compare");
 		String item_applydate = rs.getString("Apply_date");
 		String item_state = rs.getString("State");
+		String item_calling = rs.getString("Calling");
 
 		applymap.put("number", item_number);
 		applymap.put("itemnum", item_itemnum);
@@ -92,6 +101,7 @@ for(String key : assignedmap.keySet()){
 		applymap.put("compare", item_compare);
 		applymap.put("applydate", item_applydate);
 		applymap.put("state", item_state);
+		applymap.put("calling", item_calling);
 		
 		applylist.add(applymap);
 	}
@@ -284,7 +294,7 @@ select{
 	<div>
 	<%
 	//Arraylist- itemlist에 있는 개수만큼 반복하기
-	for(HashMap<String, String> hm : applylist){
+	for(LinkedHashMap<String, String> hm : applylist){
 	%>
     	<div class="item">
     	<div class="no">no.<%out.println(hm.get("number"));%></div>
@@ -298,11 +308,14 @@ select{
     			<div class="info"><span>방문상담</span> <%if(hm.get("visit").equals("1")) out.println("예"); else out.println("아니오");%></div>
     			<div class="info"><span>비교견적</span> <%if(hm.get("compare").equals("1")) out.println("예"); else out.println("아니오");%></div>
     			<div class="info"><span>신청날짜</span> <%out.println(hm.get("applydate"));%></div>
-    			<div class="info"><span>처리상태</span> <div class="state"><%if(assignedmap.get(hm.get("number")).equals("0")){%><div id="stt0"><% out.println("상담 중");%></div><%}%>
-    																	<%if(assignedmap.get(hm.get("number")).equals("1")){%><div id="stt1"><% out.println("상담 완료");%></div><%}%>
-    																	<%if(assignedmap.get(hm.get("number")).equals("2")){%><div id="stt2"><% out.println("계약 대기중");%></div><%}%>
-    																	<%if(assignedmap.get(hm.get("number")).equals("3")){%><div id="stt3"><% out.println("계약 성사");%></div><%}%>
-    																	<%if(assignedmap.get(hm.get("number")).equals("4")){%><div id="stt4"><% out.println("계약 불발");%></div><%}%>
+    			<div class="info"><span>연락방식</span> <%if(hm.get("calling").equals("1")) out.println("업체의 전화를 기다리고 있습니다."); else out.println("고객님이 직접 전화하실 예정입니다.");%></div>
+    			<div class="info"><span>처리상태</span> <div class="state"><%if(assignedmap.get(hm.get("number")).equals("0")){%><div id="stt0"><% out.println("상담 대기");%></div><%}%>
+    																	<%if(assignedmap.get(hm.get("number")).equals("1")){%><div id="stt0"><% out.println("상담 중");%></div><%}%>
+    																	<%if(assignedmap.get(hm.get("number")).equals("2")){%><div id="stt1"><% out.println("상담 완료");%></div><%}%>
+    																	<%if(assignedmap.get(hm.get("number")).equals("3")){%><div id="stt2"><% out.println("통화 불가");%></div><%}%>
+    																	<%if(assignedmap.get(hm.get("number")).equals("4")){%><div id="stt2"><% out.println("계약 대기중");%></div><%}%>
+    																	<%if(assignedmap.get(hm.get("number")).equals("5")){%><div id="stt3"><% out.println("계약 성사");%></div><%}%>
+    																	<%if(assignedmap.get(hm.get("number")).equals("6")){%><div id="stt4"><% out.println("계약 불발");%></div><%}%>
     												</div>
     			</div>
     			<%// 처리상태 - 상담전, 상담중, 상담완료, 거래성사 %>
@@ -311,11 +324,13 @@ select{
     				<input type="hidden" name="apply_num" value="<%out.print(hm.get("number"));%>">
     					<div class="selectbox">
     					<select name="state" id="select">
-    						<option value="0" selected>상담 중</option>
-    						<option value="1">상담 완료</option>
-    						<option value="2">계약 대기중</option>
-    						<option value="3">계약 성사</option>
-    						<option value="4">계약 불발</option>
+    						<option value="0" selected>상담 대기</option>
+    						<option value="1">상담 중</option>
+    						<option value="2">상담 완료</option>
+    						<option value="3">통화불가</option>
+    						<option value="4">계약 대기중</option>
+    						<option value="5">계약 성사</option>
+    						<option value="6">계약 불발</option>
     					</select>
     					</div>
     				<input type="hidden" name="apply_num" value="<%=hm.get("number")%>">
