@@ -62,6 +62,7 @@ border: 1px solid #d2d2d2;
 padding: 18px;
 border-radius: 5px;
 background: white;
+text-align: left;
 }
 div input[type="text"], select{
 border: none;
@@ -177,7 +178,13 @@ String item_num = request.getParameter("item_num")+"";
 	<form action="_remodeling_form.jsp" method="post">
 	<div id="form_description">
 		<h2>상담신청서</h2>
-		<p>종합 리모델링의 경우 대면상담이 필요합니다.<br>전화만으로 상세 견적을 내드리기는 어렵습니다.</p>
+		<div class="item">
+			<p>인테리어 업체 중개 서비스 소문난집을 찾아주셔서 감사합니다. 상담 신청 전 아래 사항을 읽어주시기 바랍니다.</p>
+			<p>종합 리모델링의 경우 대면상담이 필요합니다. 전화만으로 상세 견적을 내드리기는 어렵습니다.</p>
+			<p>소문난집에서는 업체의 추천 그리고 업체와의 소통에 도움은 드릴 수 있으나 A/S, 공사와 관련된 일체의 책임은 해당 시공 업체에 있으므로 계약 시 주의하시기 바랍니다.</p>
+			<p>소문난집에서 자체적으로 A/S를 책임지는 서비스는 곧 런칭할 예정이니 양해부탁드리겠습니다.</p>
+			<input type="checkbox" name="response" value="1">네 확인했습니다.
+		</div>
 	</div>
 	<!-- div class="item">
 		사례 사진

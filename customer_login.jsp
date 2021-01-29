@@ -171,10 +171,10 @@ input[type="submit"]{
 		<div>
 			<form action="_customer_login.jsp" method="POST">
 			<!-- 로그인 구역 -->
-				<div id="customer_name"><%=customer_name%></div>
+				<div id="customer_name"><%=customer_name%>님 페이지</div>
 				<div id="password_area">
 					<div id="password_label">비밀번호</div>
-					<input type="password" name="password">
+					<input type="password" name="password" placeholder="휴대폰 뒷 네자리">
 					<input type="hidden" name="customer_num" value="<%=customer_num%>">
 					<input type="submit" value="확인">
 				</div>

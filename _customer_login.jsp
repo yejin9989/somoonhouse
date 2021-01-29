@@ -52,6 +52,8 @@ if(pw != null){
 		//개인페이지로
 		response.sendRedirect("https://somoonhouse.com/customer_request.jsp");
 	}
+	else{
+	}
 }
 //DB개체 정리
 /*
@@ -67,8 +69,8 @@ window.onload = function() {
 		alert("비밀번호를 입력해주세요!");
 		history.back();
 	}
-	else if("<%=customer_name%>"" == null){
-		alert("일치하는 회원정보가 없습니다.");
+	else if("<%=customer_name%>" == "null" || "<%=customer_name%>" == "" ){
+		alert("비밀번호를 재확인 해주세요.");
 		history.back();
 	}
 };
@@ -78,8 +80,5 @@ window.onload = function() {
 if(!wcs_add) var wcs_add = {};
 wcs_add["wa"] = "3602e31fd32c7e";
 wcs_do();
-</script>
-<script type="text/javascript" src="slick-1.8.1/slick/slick.min.js"></script>
-</div>
 </body>
 </html>

@@ -31,6 +31,7 @@
 	//신청폼으로 부터 받은 데이터 불러오기, 필요한 정보 정의
 	int num = 0;
 	String item_num = request.getParameter("item_num");
+	String responses = request.getParameter("response"); 
 	String agree = request.getParameter("agree"); 
 	String name = request.getParameter("name");
 	String phone = request.getParameter("phone");
@@ -41,16 +42,25 @@
 	String visit = request.getParameter("visit");
 	String compare = request.getParameter("compare");
 	String call = request.getParameter("call");
-	//String password = phone.substring(phone.length()-4, phone.length());
+	String password = "";
 	java.sql.Date d = null;
 	String state = "0"; //처리상태 - 0:신청완료 1:업체전달완료 2:상담완료 3:거래성사
 	
 	//받을 때 숫자형태가 아닌데 숫자로 입력해야하는경우 변환해주기
 	//필드를 다 채웠는지의 여부를 확인해본다. 덜 채웠으면 다시 채우라하기
+	
 	if(item_num == null || item_num.equals("null")){
 	%>
 		<script>
 		alert('잘못 된 접근입니다!');
+		</script>
+	<%
+	error++;
+	}
+	else if(responses == null){
+	%>
+		<script>
+		alert('안내사항을 읽고 확인해주세요.');
 		</script>
 	<%
 	error++;
@@ -78,6 +88,17 @@
 		</script>
 	<%	
 	error++;
+	}
+	else if(phone.length()<6 || phone.length() > 12) {
+		%>
+		<script>
+		alert('휴대폰 번호를 확인해주세요.');
+		</script>
+	<%
+	error++;
+	}
+	else{
+		password = phone.substring(phone.length()-4, phone.length());
 	}
 	
 	//몇번째 신청 정보인지
@@ -112,7 +133,7 @@
 	pstmt.setDate(11, d);
 	pstmt.setString(12, state);
 	pstmt.setString(13, call);
-	pstmt.setString(14, "1234");
+	pstmt.setString(14, password);
 	
 	if(error == 0){
 		pstmt.executeUpdate();

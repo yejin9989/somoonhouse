@@ -78,6 +78,7 @@ body{
     background-size: 69px 26px;
     height: 26px;
     width: 69px;
+    cursor: pointer;
 }
 #x_btn{
     font-size: 33pt;
@@ -267,5 +268,8 @@ $(window).resize(function(){
 	frame();
 });
 
+$("#logo").click(function(){
+	location.href = "index.jsp";
+})
 </script>
 </html>

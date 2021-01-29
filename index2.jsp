@@ -220,6 +220,9 @@ overflow: hidden;
     padding: 11px 0px 4px;
 }
 #jusobtn{
+	appearance: none;
+	-webkit-appearance: none;
+	-webkit-border-radius: 0;
 	min-width: 50px;
     width: 70px;
     height: 37px;
@@ -411,12 +414,6 @@ input#search {
     border: 1px solid #c3c3c3;
     padding: 7px 0px 7px 87px;
 }
-input{
-/*ios대응*/
-appearance: none;
--webkit-appearance: none;
--webkit-border-radius: 0;
-}
 @media (max-width : 768px){
 	#somun_logo{
 	}
@@ -445,7 +442,7 @@ appearance: none;
 	width: 85%;
 	}
 }
-@media (max-width : 380px){
+@media (max-width : 370px){
 	.item img{
 	width:140px;
 	}
@@ -596,7 +593,7 @@ applyEle.on('click', function(){
 	%>
 			</div>
 	</div>
-	<form action="index2.jsp" method="GET">
+	<form action="index.jsp" method="GET">
 
 	</form>
 	<div id="somun_search">
@@ -624,6 +621,7 @@ applyEle.on('click', function(){
 		<input class="area1" onClick="ajax_click(this)" type="radio" name="Daegu" id="suseong-gu" value="146"<%if(Arrays.asList(request_areas).contains("146")) out.println("checked");%>><label for="suseong-gu" class="mylabel">수성구</label>
 		<input class="area1" onClick="ajax_click(this)" type="radio" name="Daegu" id="dalseo-gu" value="147"<%if(Arrays.asList(request_areas).contains("147")) out.println("checked");%>><label for="dalseo-gu" class="mylabel">달서구</label>
 		<input class="area1" onClick="ajax_click(this)" type="radio" name="Daegu" id="dalseong-gun" value="148"<%if(Arrays.asList(request_areas).contains("148")) out.println("checked");%>><label for="dalseong-gun" class="mylabel">달성군</label>
+		<input class="area1" onClick="ajax_click(this)" type="radio" name="Daegu" id="kyeongbook" value="15"<%if(Arrays.asList(request_areas).contains("15")) out.println("checked");%>><label for="kyeongbook" class="mylabel">경북</label>
 		<!-- input class="area1" onClick="ajax_click(this)" type="submit" class="mylabel" style="width:48px; padding: 7px 0px; font-size:15px;" value="검색"-->
 		</div>
 		<!--
@@ -641,7 +639,12 @@ applyEle.on('click', function(){
 			session.setAttribute("apartment", apartment);
 		}
 		if(!(request_areas==null || request_areas[0].equals("undefined"))){
-			query = "Select distinct Apart_name from REMODELING where Second_area = ? order by Apart_name asc";
+			if(request_areas[0].equals("15")){
+				query = "Select distinct Apart_name from REMODELING where Root_area = ? order by Apart_name asc";
+			}
+			else{
+				query = "Select distinct Apart_name from REMODELING where Second_area = ? order by Apart_name asc";
+			}
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, request_areas[0]);
 			rs=pstmt.executeQuery();
@@ -746,7 +749,7 @@ applyEle.on('click', function(){
 
 	</div>
     <div>
-    <form id="form" name="form" method="POST" action="index2.jsp">
+    <form id="form" name="form" method="POST" action="index.jsp">
       	<div id="searcharea">
 			<input type="text" id="bdNm"  name="bdNm" placeholder="아파트명, 회사명으로 사례를 찾아보세요"/>
 			<input type="button" onClick="goPopup();" value="주소찾기" id="jusobtn"/>
@@ -855,7 +858,12 @@ if(build != "" && build != null && !build.equals("all")){
 }
 
 else if(request_areas != null && !request_areas[0].equals("all")){
-	query += " Where Second_area = " + request_areas[0];
+	if(request_areas[0].equals("15")){
+		query += " Where Root_area = " + request_areas[0];
+	}
+	else{
+		query += " Where Second_area = " + request_areas[0];
+	}
 	for(i = 1; i < request_areas.length; i++){
 		query += " Or Second_area = " + request_areas[i];
 	} //147
@@ -1272,10 +1280,11 @@ function ajax_click(obj){
     <%String ApArt = session.getAttribute("apartment") + "";%>
     var Daegu = $("input[name='Daegu']:checked").val();
     var pagenumber = $(obj).attr("title");
-    var apartment = "<%=ApArt%>";
+    var apartment = "<%=build%>";
+    if(apartment == "null") apartment="";
     if(pagenumber == null) pagenumber=1;
     if(a=="pageidx"){
-        location.href = "index.jsp?Daegu="+Daegu+"&pagenumstr="+pagenumber+"&Apart="+apartment;
+        location.href = "index.jsp?Daegu="+Daegu+"&pagenumstr="+pagenumber+"&bdNm="+apartment;
     }
     else{
     	 location.href = "index.jsp?Daegu="+Daegu+"&pagenumstr="+pagenumber;
