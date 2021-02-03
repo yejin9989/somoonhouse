@@ -34,7 +34,7 @@
 	String responses = request.getParameter("response"); 
 	String agree = request.getParameter("agree"); 
 	String name = request.getParameter("name");
-	String phone = request.getParameter("phone");
+	String phone = request.getParameter("phone").replaceAll("-", "");
 	String address = request.getParameter("address");
 	String area = request.getParameter("area");
 	String due = request.getParameter("due");

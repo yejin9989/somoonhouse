@@ -78,11 +78,15 @@
 	String gender = request.getParameter("gender");
 	String email= request.getParameter("email");
 	String birthday = request.getParameter("birthday");
-	String birthyear = null;
+	String birthyear = request.getParameter("year");
+	String birthmonth = request.getParameter("month");
+	String birthdate = request.getParameter("date");
 	String age = request.getParameter("age");
 	
+	//네이버가 아닐경우
+	birthday = birthyear + birthmonth + birthdate;
 	//out.println(name);
-	if(sns_id != "" && sns_id != null){
+	if(sns_id != "" && sns_id != null && !sns_id.equals("-1")){
 		/*생일포맷수정*/
 		age = age.replaceAll("-","");
 		birthday = birthday.replaceAll("-","");
@@ -149,6 +153,7 @@
 	{%>
 		<script>
 		alert('생일은 8자리 숫자로 입력해주세요 ex)19891028');
+		alert("<%=birthday%>");
 		history.back();
 		</script>
 	<%
@@ -199,10 +204,12 @@
 */			
 			PreparedStatement pstmt = null;
 			String sql = "INSERT INTO USERS VALUES"
-				+ "(?,?,?,?,?,null,null,?,?,?,?,?,?,?,?,?,default,default, default, NULL)";
+				+ "(?,?,password(?),?,?,null,null,?,?,?,?,?,?,?,?,?,default,default, default, NULL)";
 			/*현재날짜 받아오기*/
 			Calendar cal = Calendar.getInstance();
 			String year = Integer.toString(cal.get(Calendar.YEAR));
+			
+			
 			String month = Integer.toString(cal.get(Calendar.MONTH)+1);
 			String date = Integer.toString(cal.get(Calendar.DATE));
 			String todayformat = year+"-"+month+"-"+date;

@@ -4,7 +4,7 @@
 <%@ page language="java" import="java.text.*,java.sql.*,java.util.*,java.security.*,java.math.BigInteger" %>
 <%@ page language="java" import="myPackage.*" %>
 <% request.setCharacterEncoding("UTF-8"); %>
-<% session.setAttribute("page", "sample_collect.jsp"); %>
+<% session.setAttribute("page", "login.jsp"); %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -46,6 +46,7 @@ color: white;
 border-radius: 5px;
 font-size: 17px;
 margin: 16px auto;
+border:none;
 }
 .input_wrapper{
 margin:auto;
@@ -115,6 +116,12 @@ font-size: 28px;
 .social_login_btn a{
 color:white;
 }
+#signup, #signin{
+cursor: pointer;
+}
+form{
+text-align: center;
+}
 </style>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
@@ -134,10 +141,15 @@ session.setAttribute("state", state);
 <body>
 <div id="container">
 	<div id="somun_logo"><a href="index.jsp"><img src="img/somunlogo.png"></a></div>
-	<div class="input_wrapper"><input type="text" placeholder="ID" id="input_id"></div>
-	<div class="input_wrapper"><input type="password" placeholder="PW" id="input_pw"></div>
-	<div class="login_btn">로그인</div>
-	<div class="signin_action"><a>비밀번호 재설정</a><a>회원가입</a></div>
+	<form action="_general_login.jsp" method="POST">
+		<div class="input_wrapper"><input type="text" placeholder="ID" id="input_id" name="id"></div>
+		<div class="input_wrapper"><input type="password" placeholder="PW" id="input_pw" name="pw"></div>
+		<input type="submit" class="login_btn" value="로그인">
+		<div class="signin_action">
+			<!-- a>비밀번호 재설정</a-->
+			<a id="signup">회원가입</a>
+		</div>
+	</form>
 	<div class="divider">
 		<div class="divider_line"></div>
 		<div class="divider_text">소셜계정으로 로그인</div>
@@ -149,5 +161,11 @@ session.setAttribute("state", state);
 		src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js"
 		charset="utf-8"></script>
 </div>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script>
+$("#signup").click(function(){
+	location.href="signup.jsp";
+})
+</script>
 </body>
 </html>

@@ -192,7 +192,7 @@ String item_num = request.getParameter("item_num")+"";
 	<input type="hidden" name="item_num" value="<%=item_num%>">
 	<div class="item agree"><input type="checkbox" name="agree"> 개인정보 활용동의 <a href="personal.html" target="_blank">전문보기</a></div>
 	<div class="item"><span class="nametag">성함</span><input type="text" name="name"></div>
-	<div class="item"><span class="nametag">휴대폰</span><input type="text" name="phone" pattern="\d*"></div>
+	<div class="item"><span class="nametag">휴대폰</span><input type="text" name="phone"></div>
 	<div class="item"><span class="nametag">시공예정지 주소</span><input type="text" name="address"></div>
 	<div class="item"><span class="nametag">시공예정지 평수</span><input type="text" name="area" pattern="\d*">평</div>
 	<div class="item"><span class="nametag">시공예정일</span>

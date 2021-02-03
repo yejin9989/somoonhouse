@@ -919,7 +919,6 @@ while(rs.next()){
 			&& item[i][4].indexOf("JYP") == -1
 			&& item[i][4].indexOf("솔트") == -1
 			&& item[i][4].indexOf("바르다") == -1
-			&& item[i][4].indexOf("썬") == -1
 			&& item[i][4].indexOf("굿") == -1
 			&& item[i][4].indexOf("AT") == -1)
 		continue;
