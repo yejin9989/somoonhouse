@@ -112,6 +112,7 @@
           String gender = "N";
           String email = "";
           String name = "";
+          String birthyear = "";
           if(prof.get("birthday") != null){
         	  birthday = prof.get("birthday").getAsString() + "";
           }
@@ -131,12 +132,13 @@
           if(prof.get("name") != null) {
         	  name = prof.get("name").getAsString() + "";
           }
-          out.println("이름은");
-          out.println(name);
-          out.println("입니다");
+          
+          if(prof.get("birthyear") != null) {
+        	  name = prof.get("birthyear").getAsString() + "";
+          }
           %>
           <script>
-		  var s = encodeURI("_"+"signup.jsp"+"?sns_id=<%=id%>&gender=<%=gender%>&email=<%=email%>&name=<%=name%>&age=<%=age%>&birthday=<%=birthday%>&sns_type=naver");
+		  var s = encodeURI("_"+"signup.jsp"+"?sns_id=<%=id%>&gender=<%=gender%>&email=<%=email%>&name=<%=name%>&age=<%=age%>&birthday=<%=birthday%>&year=<%=birthyear%>&sns_type=naver");
 		  document.location.href = s;
           </script>
           <%

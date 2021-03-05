@@ -100,12 +100,16 @@
           JsonObject prof = (JsonObject)respon.get("response");
           String id = prof.get("id").getAsString();
           String email = prof.get("email").getAsString();
+          String gender = prof.get("gender").getAsString();
           String name = prof.get("name").getAsString();
-          //out.println(name);
+          String birthday = prof.get("birthday").getAsString();
+          String birthyear = prof.get("birthyear").getAsString();
+          String sns_type = "naver";
+          out.println(str);
           %>
           <script>
-		  var s = encodeURI("_"+"signup.jsp"+"?sns_id=<%=id%>&gender=<%=gender%>&email=<%=email%>&name=<%=name%>&age=<%=age%>&birthday=<%=birthday%>&sns_type=naver");
-		  document.location.href = s;
+		  var s = encodeURI("_"+"signup.jsp"+"?sns_id=<%=id%>&gender=<%=gender%>&email=<%=email%>&name=<%=name%>&birthyear=<%=birthyear%>&birthday=<%=birthday%>&sns_type=naver");
+		  //document.location.href = s;
           </script>
           <%
       	}

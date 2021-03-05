@@ -383,7 +383,7 @@ window.onload = function(){
 	}
 }
 $('#company_profile').click(function(){
-	location.href="company_home.jsp?company_id="+"<%=s_id%>";
+	location.href="company_edit.jsp"
 })
 </script>
 <script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>

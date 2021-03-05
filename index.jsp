@@ -11,6 +11,11 @@ ResultSet rs = null;
 PreparedStatement pstmt = null;
 String query = "";
 %>
+<%
+response.setHeader("Cache-Control", "no-cache");       
+response.setHeader("Pragma", "no-cache");
+response.setDateHeader("Expires", 31536000);
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,7 +34,7 @@ String query = "";
 <link rel="stylesheet" type="text/css" href="slick-1.8.1/slick/slick-theme.css"/>
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <style type="text/css">
-@import url(https://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+@import url(https://fonts.googleapis.com/earlyaccess/nanumgothic.css?display=swap);
 @font-face{
 font-family:'Nanum Gothic',sans-serif;
 }
@@ -414,6 +419,15 @@ input#search {
     border: 1px solid #c3c3c3;
     padding: 7px 0px 7px 87px;
 }
+#as{
+    display: inline-block;
+    background: #4098f4;
+    color: white;
+    padding: 5px;
+    border-radius: 3px;
+    font-size: 7pt;
+    margin: 6px 0 3px;
+}
 @media (max-width : 768px){
 	#somun_logo{
 	}
@@ -457,7 +471,6 @@ input#search {
 	right: 1%;
 	}
 }
-
 </style>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
@@ -546,7 +559,7 @@ applyEle.on('click', function(){
 	<div id="somun_menu"></div>
 	<div style="float:left;width:100%;height:max-content;margin-bottom:10px;text-align:center;">
 	<div id="somun_logo"><a href="index.jsp"><img style="width:105px;"src="img/somunlogo.png"></a></div>
-	<div style="margin:auto;width:max-content;color: #6d6d6d;font-size:10pt;">대구 리모델링 플랫폼</div>
+	<div style="margin:auto;width:max-content;color: #6d6d6d;font-size:10pt;">우리 동네 리모델링 플랫폼</div>
 	</div>
 </div>
 <div id="main">
@@ -564,6 +577,7 @@ applyEle.on('click', function(){
 		recitem[i][0] = rs.getString("Number");
 		recitem[i][1] = rs.getString("Id");
 		recitem[i][2] = rs.getString("Title");
+		recitem[i][3] = rs.getString("URL");
 		i++;
 	}
 	//out.println(pstmt);
@@ -581,7 +595,7 @@ applyEle.on('click', function(){
     		imgstr = imgstr.replaceAll("%", "%25");
     		%>
 			<div><div class="center_img"><div>
-			<a href = "_hit1.jsp?num=<%=recitem[i][0]%>" target="_self">
+			<a href = "<%=recitem[i][3]%>" target="_self">
     		<img src="<%=imgstr%>" class="eotkd">
     		</a>
     		</div></div></div>
@@ -891,7 +905,7 @@ else{*/
 	pstmt = conn.prepareStatement(query);
 //}
 rs = pstmt.executeQuery();
-String item[][] = new String[100000][18];
+String item[][] = new String[100000][20];
 i = 0;
 while(rs.next()){
 	item[i][0] = rs.getString("Number");
@@ -920,13 +934,24 @@ while(rs.next()){
 			&& item[i][4].indexOf("솔트") == -1
 			&& item[i][4].indexOf("바르다") == -1
 			&& item[i][4].indexOf("굿") == -1
-			&& item[i][4].indexOf("AT") == -1)
+			&& item[i][4].indexOf("AT") == -1
+			&& item[i][4].indexOf("아이비") == -1
+			&& item[i][4].indexOf("지온") == -1)
 		continue;
 	//거리계산//item[i][12] = String.valueOf(Math.sqrt(((x-Float.parseFloat(item[i][10]))*(x-Float.parseFloat(item[i][10])))+((y-Float.parseFloat(item[i][9]))*(y-Float.parseFloat(item[i][9])))));
 	//if(item[i][4].indexOf("오픈하우스") == -1) continue; 오픈하우스를 오픈함
 	i++;
 }
 int itemnum = i;
+for(i=0;i<itemnum;i++){
+	query = "select * from COMPANY where Name Like \"%" + item[i][4] +"%\"";
+	pstmt = conn.prepareStatement(query);
+	rs = pstmt.executeQuery();
+	while(rs.next()){
+		item[i][18] = rs.getString("As_provide");
+		item[i][19] = rs.getString("As_warranty");
+	}
+}
 //리모델링 사례 거리순정렬
 /*
 int min = 0;
@@ -1015,6 +1040,10 @@ for(i = 0; i < item.length; i++){
 		<div class="itemdiv">
 		<%classes = Integer.toString(Integer.parseInt(classes)+1);%>
 		<div style="font-size:10px;color:#999999"><%=item[i][4]%></div><!-- 닉넴 -->
+		<%
+		if(item[i][18] != null && item[i][18].equals("1")){%>
+		<div id="as">A/S <%=item[i][19]%></div>
+		<%}%>
     	<div style="font-size:14px;font-weight:bold;margin:8px 0;color:#3d3d3d"><%=item[i][2]%></div>
     	<div style="font-size:9px;color:#363636">조회수 <%=item[i][17]%></div>
     	<!-- div style="font-size:9px;color:#363636">스크랩 12개</div-->

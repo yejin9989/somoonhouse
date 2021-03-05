@@ -121,6 +121,8 @@ height: 51px;
 border-radius: 5px;
 border: 0px;
 font-size:16px;
+-webkit-appearance:none;
+-webkit-border-radius:5px;
 }
 .agree a{
 font-size: 10px;
@@ -145,7 +147,7 @@ font-weight: unset;
 	<div id="somun_menu"></div>
 	<div style="float:left;width:100%;height:max-content;margin-bottom:10px;text-align:center;">
 	<div id="somun_logo"><a href="index.jsp"><img style="width:128px;"src="img/somunlogo.png"></a></div>
-	<div style="margin:auto;width:max-content;color: #31b1f2;font-size:10pt;">대구 1등 리모델링 플랫폼</div>
+	<div style="margin:auto;width:max-content;color: #6d6d6d;font-size:10pt;">우리 동네 리모델링 플랫폼</div>
 	</div>
 </div>
 <div id="content">
@@ -175,15 +177,12 @@ String item_num = request.getParameter("item_num")+"";
 	<!------------ 내용물  --------------->
 	<div id="remodeling_form">
 	<div id="align_form">
-	<form action="_remodeling_form.jsp" method="post">
+	<form action="_remodeling_form.jsp" method="post"  onSubmit="return formChk();">
 	<div id="form_description">
 		<h2>상담신청서</h2>
 		<div class="item">
-			<p>인테리어 업체 중개 서비스 소문난집을 찾아주셔서 감사합니다. 상담 신청 전 아래 사항을 읽어주시기 바랍니다.</p>
-			<p>종합 리모델링의 경우 대면상담이 필요합니다. 전화만으로 상세 견적을 내드리기는 어렵습니다.</p>
-			<p>소문난집에서는 업체의 추천 그리고 업체와의 소통에 도움은 드릴 수 있으나 A/S, 공사와 관련된 일체의 책임은 해당 시공 업체에 있으므로 계약 시 주의하시기 바랍니다.</p>
-			<p>소문난집에서 자체적으로 A/S를 책임지는 서비스는 곧 런칭할 예정이니 양해부탁드리겠습니다.</p>
-			<input type="checkbox" name="response" value="1">네 확인했습니다.
+			<p>종합 리모델링의 경우 대면 상담이 필요합니다. 전화만으로 상세 견적을 내드리기는 어렵습니다.</p>
+			<p>대면 상담을 요청하시고 상세한 견적을 받고 고민해 보시는 걸 추천드립니다.</p>
 		</div>
 	</div>
 	<!-- div class="item">
@@ -231,14 +230,6 @@ String item_num = request.getParameter("item_num")+"";
 	</div>
 	</div>
 	<!------------ 내용물  --------------->
-	
-	
-	
-	
-	
-	
-	
-	
 	</div>
 	</div>
 <%
@@ -250,6 +241,11 @@ query="";
 conn.close();
 */
 %>
+<script>
+function formChk(){
+	return confirm("소문난집에서는 업체의 추천, 업체와의 소통에 도움은 드릴 수 있으나 A/S, 공사와 관련된 일체의 책임은 시공 업체에 있습니다.\n업체 별로 A/S기간과 범위의 차이가 있으니 이를 꼭 확인하시고 계약하시기 바랍니다.");
+}
+</script>
 <script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>
 <script type="text/javascript">
 if(!wcs_add) var wcs_add = {};

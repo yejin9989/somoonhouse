@@ -56,17 +56,24 @@ while(rs.next()){
 	String company_name = "";
 	String company_address = "";
 	String company_phone = "";
+	String company_as_provide = "";
+	String company_as_warranty = "";
 	while(rs1.next()){
 		company_name = rs1.getString("Name");
 		company_address = rs1.getString("Address");
 		company_phone = rs1.getString("Phone");
+		company_as_provide = rs1.getString("As_provide");
+		company_as_warranty = rs1.getString("As_warranty");
 	}
 	
 
 	companymap.put("name", company_name);
+	companymap.put("as_provide", company_as_provide);
+	companymap.put("as_warranty", company_as_warranty);
 	companymap.put("address", company_address);
 	companymap.put("phone", company_phone);
 	companymap.put("state", state_eng);
+	companymap.put("id", company_num);
 	companylist.add(companymap);
 }
 
@@ -303,6 +310,24 @@ select{
 	color: white;
 	position: absolute;
 }
+#request_cancel{
+	width: 100%;
+    background: #aeaeae;
+    border-radius: 10px;
+    height: 39px;
+    color: white;
+    text-align: center;
+    line-height: 39px;
+}
+#as{
+    font-size: 9pt;
+    color: #ffffff;
+    background: #466eff;
+    border-radius: 3px;
+    padding: 1px 4px;
+    box-shadow: 0px 0px 5px 3px #cce8ff;
+    font-weight: bold;
+}
 @media (max-width : 530px){
 /*반응형*/
 	.item {
@@ -352,9 +377,13 @@ select{
     				<%
     				for(HashMap<String, String> hm : companylist){
     				%>
-    				<div class="company">
+    				<div class="company" id="<%out.print(hm.get("id"));%>">
     					<div class="state">
     						<div><%out.print(hm.get("name"));%></div>
+    						<%if(hm.get("as_provide").equals("1")){
+    							%>
+    						<div id="as">A/S <%out.print(hm.get("as_warranty"));%></div><%
+    						}%>
     						<%if(hm.get("state").equals("0"))
     							{%><div id="stt0">상담 대기</div><%}%>
     						<%if(hm.get("state").equals("1"))
@@ -369,6 +398,8 @@ select{
     							{%><div id="stt2">계약 성사</div><%}%>
     						<%if(hm.get("state").equals("6"))
     							{%><div id="stt3">계약 불발</div><%}%>
+    						<%if(hm.get("state").equals("7"))
+    							{%><div id="stt3">상담 취소</div><%}%>
     					</div>
     					<div id="addr"><%=hm.get("address")%></div>
     					<div id="phone"><%=hm.get("phone")%></div>
@@ -382,6 +413,7 @@ select{
     				</div>
     			<%}%>
     			</div>
+    			<div id="request_cancel">상담취소하기</div>
 				<!-- div class="info">
 					<span>상담 전체 평가하기</span>
 					<textarea></textarea>
@@ -424,6 +456,13 @@ $('.star').click(function(){
 })
 </script>
 <script>
+$('#request_cancel').click(function(){
+	location.href="_customer_request_state.jsp?apply_num="+"<%=applymap.get("number")%>";
+})
+$('.company').click(function(){
+	//location.href="company_home.jsp?company_id="+$(this).attr('id');
+})
+
 window.onload = function(){
 	if("<%=s_id%>" == "" || "<%=s_id%>" == "null"){
 		alert("유효하지 않은 접근입니다!");
@@ -438,7 +477,6 @@ wcs_add["wa"] = "3602e31fd32c7e";
 wcs_do();
 </script>
 <script type="text/javascript" src="slick-1.8.1/slick/slick.min.js"></script>
-</div>
 </div>
 </body>
 </html>

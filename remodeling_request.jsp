@@ -214,6 +214,8 @@ input[type="checkbox"]:checked + label span {
     padding: 2%;
     background: #fbfbfb;
     box-shadow: 0px 0px 6px #e2e2e2;
+    height: 1000px;
+    float:left;
 }
 .item .no{
 	color: #909090;
@@ -230,9 +232,6 @@ input[type="checkbox"]:checked + label span {
 }
 .phone :after{
 	content:"";
-	
-	
-	border: 1px solid black;
 }
 .item_wrapper span{
 	display: block;
@@ -351,6 +350,7 @@ textarea{
     																	<%if(hm.get("state").equals("1")){%><div id="stt1"><% out.println("업체전달완료");%></div><%}%>
     																	<%if(hm.get("state").equals("2")){%><div id="stt2"><% out.println("상담완료");%></div><%}%>
     																	<%if(hm.get("state").equals("3")){%><div id="stt3"><% out.println("거래성사");%></div><%}%>
+    																	<%if(hm.get("state").equals("4")){%><div id="stt3"><% out.println("상담취소");%></div><%}%>
     												</div>
     			</div>
     			<div class="info"><span>고객페이지</span>
@@ -435,11 +435,13 @@ window.onload = function(){
 function toggle_company(){
 	if($(".assign_company").css("display") == "none"){
 		$(".assign_company").css("display", "block");
-		$("#toggle").css("transform", "rotate(90deg) translate(-25%, 0)");
+		$(".assign_company").css("z-index", "10");
+		$(".assign_company").css("position", "relative");
+		$(".assign_company").css("background", "white");
+		$(".assign_company").css("box-shadow", "1px 3px 3px 0px #00000045");
 	}
 	else{
 		$(".assign_company").css("display", "none");
-		$("#toggle").css("transform", "translate(0, -50%)");
 	}
 }
 $(".toggle_area").click(function(){

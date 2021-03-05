@@ -83,10 +83,8 @@
 	String birthdate = request.getParameter("date");
 	String age = request.getParameter("age");
 	
-	//네이버가 아닐경우
-	birthday = birthyear + birthmonth + birthdate;
 	//out.println(name);
-	if(sns_id != "" && sns_id != null && !sns_id.equals("-1")){
+	if(sns_id != "" && sns_id != null && !sns_id.equals("-1") && !sns_id.equals("null")){
 		/*생일포맷수정*/
 		age = age.replaceAll("-","");
 		birthday = birthday.replaceAll("-","");
@@ -160,6 +158,8 @@
 	error++;
 	}
 	else{	
+		//네이버가 아닐경우
+		birthday = birthyear + birthmonth + birthdate;
 		try{
 			Integer.parseInt(birthday);
 			birthyear = birthday.substring(0,4);
@@ -247,7 +247,7 @@
 			%>
 			<script>
 			alert('신청에 실패했습니다.');
-			//history.back();
+			history.back();
 			</script>
 			<%
 			out.println(e);

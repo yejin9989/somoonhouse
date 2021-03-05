@@ -30,8 +30,7 @@
 	
 	//신청폼으로 부터 받은 데이터 불러오기, 필요한 정보 정의
 	int num = 0;
-	String item_num = request.getParameter("item_num");
-	String responses = request.getParameter("response"); 
+	String item_num = request.getParameter("item_num"); 
 	String agree = request.getParameter("agree"); 
 	String name = request.getParameter("name");
 	String phone = request.getParameter("phone").replaceAll("-", "");
@@ -53,14 +52,6 @@
 	%>
 		<script>
 		alert('잘못 된 접근입니다!');
-		</script>
-	<%
-	error++;
-	}
-	else if(responses == null){
-	%>
-		<script>
-		alert('안내사항을 읽고 확인해주세요.');
 		</script>
 	<%
 	error++;
