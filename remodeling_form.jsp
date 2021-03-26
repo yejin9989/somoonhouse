@@ -189,7 +189,6 @@ String item_num = request.getParameter("item_num")+"";
 		사례 사진
 	</div-->
 	<input type="hidden" name="item_num" value="<%=item_num%>">
-	<div class="item agree"><input type="checkbox" name="agree"> 개인정보 활용동의 <a href="personal.html" target="_blank">전문보기</a></div>
 	<div class="item"><span class="nametag">성함</span><input type="text" name="name"></div>
 	<div class="item"><span class="nametag">휴대폰</span><input type="text" name="phone"></div>
 	<div class="item"><span class="nametag">시공예정지 주소</span><input type="text" name="address"></div>
@@ -214,8 +213,8 @@ String item_num = request.getParameter("item_num")+"";
 		</select>
 	</div>
 	<div class="item"><span class="nametag">무료방문상담</span>
-		<input type="radio" name="visit" value="1" id="visit1"><label for="visit1">필요함</label>
-		<input type="radio" name="visit" value="0" id="visit0"><label for="visit0">필요없음</label>
+		<input type="radio" name="consulting" value="1" id="consulting1"><label for="consulting1">필요함</label>
+		<input type="radio" name="consulting" value="0" id="consulting0"><label for="consulting0">필요없음</label>
 	</div>
 	<div class="item"><span class="nametag">비교견적</span><span style="font-size:10pt;display:block;margin-bottom:10px;line-height:1.3em;">다른 업체에서도 상담 연락을 받아보시겠어요?<br>동의하시면 추천업체 2-3곳에 상담신청서가 함께 전달됩니다.</span>
 		<input type="radio" name="compare" value="1" id="compare1"><label for="compare1">예</label>
@@ -225,6 +224,7 @@ String item_num = request.getParameter("item_num")+"";
     	<input type="radio" name="call" id="callplease" value="1"><label for="callplease" class="please">전화주세요</label>
     	<input type="radio" name="call" id="callwill"  value="0"><label for="callwill"  class="will">전화 걸게요</label>
     </div>
+    <div class="item agree"><input type="checkbox" name="agree"> 개인정보 활용동의 <a href="personal.html" target="_blank">전문보기</a></div>
 	<input type="submit" value="무료상담신청">
 	</form>
 	</div>

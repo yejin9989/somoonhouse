@@ -107,9 +107,9 @@ if(s_id.equals("")){
 		<div id="profile_img"></div>
 		<div id="company_name"><%=company_name%></div>
 		<input type="checkbox" name="as_provide" class="mycheck" id="as_provide" value="1" <%=checked%>><label id="as_label" for="as_provide">A/S 제공</label>
-		<div id="btnArea">
-			<input type="button" onClick="goLicenseUpload();" class="submitBtn" id="business_license" value="사업자등록증 제출하기"/>
-			<input type="button" onClick="goCertificateUpload();" class="submitBtn" id="etc_license" value="기타 자격증 제출" />
+		<div id="btnarea">
+			<div class="submitbtn" id="business_license">사업자등록증 제출하기</div>
+			<!-- div class="submitbtn" id="etc_license">기타 자격증 제출</div-->
 		</div>
 		<div id="company_address"><input type="text" name="company_area" value="<%=company_area%>"></div>
 		<div id="as_warranty">
@@ -176,21 +176,12 @@ $(document).ready(function(){
 	checking();
 	$('#profile_img').css("background", "url(<%=company_img%>) 50% 0% / 198px");
 })
-
-function goLicenseUpload(){
-	window.open("business_license_upload.jsp","pop","width=570,height=420, scrollbars=yes, resizable=yes");
-}
-
-function goCertificateUpload(){
-	window.open("etc_license_upload.jsp","pop","width=570,height=420, scrollbars=yes, resizable=yes");
-}
-
-// $("#business_license").click(function(){
-// 	window.open("business_license_upload.jsp");
-// })
-// $("#etc_license").click(function(){
-// 	window.open("etc_license_upload.jsp");
-// })
+$("#business_license").click(function(){
+	window.open("business_license_upload.jsp");
+})
+$("#etc_license").click(function(){
+	window.open("etc_license_upload.jsp");
+})
 </script>
 <script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>
 <script type="text/javascript">

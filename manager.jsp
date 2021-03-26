@@ -166,6 +166,8 @@ input[type="checkbox"]:checked + label span {
 				<div class="mybox" id="searchurl">아파트 사례정보 검색</div>
 				<!-- <div class="mybox" id="blog">소문난 블로그</div> -->
 				<div class="mybox" id="home">소문난집 홈으로</div>
+				<div class="mybox" id="license">사업자등록증</div>
+				<div class="mybox" id="certificate">자격증 확인</div>
 			</form>
 	</div>
 		<!------------ 내용물  --------------->
@@ -191,6 +193,10 @@ conn.close();
 			location.href='https://blog.naver.com/somoonhouse';
 		else if($(this).attr('id') == "searchurl")
 			location.href='manager_search.jsp';
+		else if($(this).attr('id') == "license")
+			location.href='license_check.jsp';
+		else if($(this).attr('id') == "certificate")
+			location.href='certificate_check.jsp';
 	})
 </script>
 <script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>

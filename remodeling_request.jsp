@@ -50,7 +50,7 @@ while(rs.next()){
 	String item_area = rs.getString("Area")+"";
 	String item_due = rs.getString("Due")+"";
 	String item_budget = rs.getString("Budget")+"";
-	String item_visit = rs.getString("Visit")+"";
+	String item_consulting = rs.getString("Consulting")+"";
 	String item_compare = rs.getString("compare")+"";
 	String item_applydate = rs.getString("Apply_date")+"";
 	String item_state = rs.getString("State")+"";
@@ -114,7 +114,7 @@ while(rs.next()){
 	itemmap.put("area", item_area);
 	itemmap.put("due", item_due);
 	itemmap.put("budget", item_budget);
-	itemmap.put("visit", item_visit);
+	itemmap.put("consulting", item_consulting);
 	itemmap.put("compare", item_compare);
 	itemmap.put("applydate", item_applydate);
 	itemmap.put("state", item_state);
@@ -342,7 +342,7 @@ textarea{
     			<div class="info"><span>평수</span> <%out.println(hm.get("area"));%></div>
     			<div class="info"><span>예정일</span> <%out.println(hm.get("due"));%></div>
     			<div class="info"><span>예산</span> <%out.println(hm.get("budget"));%></div>
-    			<div class="info"><span>방문상담</span> <%if(hm.get("visit").equals("1")) out.println("예"); else out.println("아니오");%></div>
+    			<div class="info"><span>방문상담</span> <%if(hm.get("consulting").equals("1")) out.println("예"); else out.println("아니오");%></div>
     			<div class="info"><span>비교견적</span> <%if(hm.get("compare").equals("1")) out.println("예"); else out.println("아니오");%></div>
     			<div class="info"><span>신청날짜</span> <%out.println(hm.get("applydate"));%></div>
     			<div class="info"><span>연락방식</span> <%if(hm.get("calling").equals("1")) out.println("업체의 전화를 기다리고 있습니다."); else out.println("고객님이 직접 전화하실 예정입니다.");%></div>

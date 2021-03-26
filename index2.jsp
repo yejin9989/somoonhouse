@@ -1013,12 +1013,12 @@ for(i = 0; i < item.length; i++){
     	<div class="item">
     	<%
     	pstmt = null;
-    	query = "SELECT * FROM RMDL_IMG WHERE Number = ? order by Number2";
+    	query = "SELECT * FROM RMDL_IMG WHERE Number = ? order by Number2 Limit 1";
     	rs = null;
     	pstmt = conn.prepareStatement(query);
     	pstmt.setString(1, item[i][0]);
     	rs = pstmt.executeQuery();
-    	%><div class="slider<%=classes%>" style="overflow:hidden;height:100%;border-radius:7px;"><%
+    	%><div class="notslider<%=classes%>" style="overflow:hidden;height:100%;border-radius:7px;"><%
     	while(rs.next()){
     		%>
     		<div class="itemdiv">

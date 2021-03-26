@@ -428,6 +428,13 @@ input#search {
     font-size: 7pt;
     margin: 6px 0 3px;
 }
+#no-result-div {
+	text-align: center;
+	height: 400px;
+	padding-top: 100px;
+	font-size: 18px;
+	line-height: 35px;
+}
 @media (max-width : 768px){
 	#somun_logo{
 	}
@@ -943,15 +950,27 @@ while(rs.next()){
 	i++;
 }
 int itemnum = i;
-for(i=0;i<itemnum;i++){
-	query = "select * from COMPANY where Name Like \"%" + item[i][4] +"%\"";
-	pstmt = conn.prepareStatement(query);
-	rs = pstmt.executeQuery();
-	while(rs.next()){
-		item[i][18] = rs.getString("As_provide");
-		item[i][19] = rs.getString("As_warranty");
+if(itemnum > 0) {
+	for (i = 0; i < itemnum; i++) {
+		query = "select * from COMPANY where Name Like \"%" + item[i][4] + "%\"";
+		pstmt = conn.prepareStatement(query);
+		rs = pstmt.executeQuery();
+		while (rs.next()) {
+			item[i][18] = rs.getString("As_provide");
+			item[i][19] = rs.getString("As_warranty");
+		}
 	}
 }
+else { %>
+		<div id="no-result-div" style="text-align:center;">
+			<img src="otherimg/noun_Astronaut_3328551.svg" />
+			<br/>아직은 사례가 없어요.<br/>
+			<h2 id="user-input">"<%
+				out.println(build);
+			%>"</h2>
+			정확한 아파트명/화사명으로 검색했나요?
+		</div>
+<% }
 //리모델링 사례 거리순정렬
 /*
 int min = 0;
@@ -978,8 +997,11 @@ for(i = 0; i < item.length; i++){
     <%
 	if(s_id.equals("100"))
 	{%>
-		<div style="width:100%;text-align:center;"><a href="item_upload.jsp" target="_blank"><button style="width:150px;height:45px;margin:40px;border-radius:5px; background-color:#29aef2; color:white; font-size:17px; border:none;">사례등록  ></button></a></div>
-	<%}%>
+		<div style="width:100%;text-align:center;margin-bottom:20px;">
+			<button onclick="goRecItemUpload();" style="width:150px;height:45px;margin:40px 15px;border-radius:5px; background-color:#29aef2; color:white; font-size:17px; border:none;">추천사례등록  ></button>
+			<button onclick="goItemUpload();" style="width:150px;height:45px;margin:40px 15px;border-radius:5px; background-color:#29aef2; color:white; font-size:17px; border:none;">사례등록  ></button>
+		</div>
+		<%}%>
     <%
     //itemnum -> 아이템 개수
     //pageitemnum -> 페이지 총 개수
@@ -1013,12 +1035,12 @@ for(i = 0; i < item.length; i++){
     	<div class="item">
     	<%
     	pstmt = null;
-    	query = "SELECT * FROM RMDL_IMG WHERE Number = ? order by Number2";
+    	query = "SELECT * FROM RMDL_IMG WHERE Number = ? order by Number2 Limit 1";
     	rs = null;
     	pstmt = conn.prepareStatement(query);
     	pstmt.setString(1, item[i][0]);
     	rs = pstmt.executeQuery();
-    	%><div class="slider<%=classes%>" style="overflow:hidden;height:100%;border-radius:7px;"><%
+    	%><div class="notslider<%=classes%>" style="overflow:hidden;height:100%;border-radius:7px;"><%
     	while(rs.next()){
     		%>
     		<div class="itemdiv">
@@ -1388,6 +1410,14 @@ $(document).ready(function(){
 if(!wcs_add) var wcs_add = {};
 wcs_add["wa"] = "3602e31fd32c7e";
 wcs_do();
+
+function goRecItemUpload(){
+	window.open("recommend_item_upload.jsp","pop");
+}
+
+function goItemUpload(){
+	window.open("item_upload.jsp","pop");
+}
 </script>
 <script type="text/javascript" src="slick-1.8.1/slick/slick.min.js"></script>
 </div>
