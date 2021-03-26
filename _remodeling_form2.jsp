@@ -13,9 +13,6 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 	<%
-	//변수 정의
-	int i;
-	
 	/*로그인된 세션 아이디(추후개발) 가져오기, 현재 페이지 저장
 	String id = session.getAttribute("s_id")+"";
 	String now = "_remodeling_form.jsp";*/
@@ -43,7 +40,6 @@
 	String due = request.getParameter("due");
 	String budget = request.getParameter("budget");
 	String div1 = request.getParameter("division1");
-	ArrayList<String> div2 = new ArrayList<String>();
 	String consulting = request.getParameter("consulting");
 	//String compare = request.getParameter("compare");
 	String call = request.getParameter("call");
@@ -73,17 +69,15 @@
 	else if(name == null || 
 			phone == null || 
 			address == null || 
-			building_type == null || 
 			area == null || 
 			due == null || 
 			budget == null ||
-			div1 == null ||
 			consulting == null ||
 			call == null){
 		%>
 		<script>
 		alert('모든항목에 답변 해주세요.');
-		//alert("<%=name%><%=phone%><%=address%><%=building_type%><%=area%><%=due%><%=budget%><%=div1%><%=consulting%><%=call%>")
+		alert("<%=name%><%=phone%><%=address%><%=area%><%=due%><%=budget%><%=consulting%><%=call%>")
 		</script>
 	<%	
 	error++;
@@ -139,7 +133,6 @@
 		%>
 		<script>
 		alert('등록을 완료했습니다.');
-		alert(<%=building_type%>+'building_type'+<%=div1%>+'div1');
 		history.go(-2);
 		</script>
 		<%
@@ -154,19 +147,6 @@
 	
 	//확인
 	//out.println(pstmt);
-	
-	//div2받아오기
-	for(i=0; i<8; i++){
-		div2.add(request.getParameter("division2-"+i) + "");
-		if(!div2.get(div2.size()-1).equals("") && !div2.get(div2.size()-1).equals("null")){
-			int div2_num = Integer.parseInt(div2.get(div2.size()-1));
-			sql = "insert into REMODELING_APPLY_DIV2 (Apply_num, Div2_num) values(?, ?)";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, num);
-			pstmt.setInt(2, div2_num);
-			pstmt.executeUpdate();
-		}
-	}
 	
 	//DB객체 종료
 	stmt.close();
