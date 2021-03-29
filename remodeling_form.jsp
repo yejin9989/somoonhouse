@@ -163,7 +163,7 @@ for(i=1; i<=division1.size(); i++){
 				%>
 				<input type="checkbox" name="division1" id="division1_<%=i%>" class="block" value="<%=i%>">
 				<label for="division1_<%=i%>">
-					<img src="otherimg/estimate/division<%=i%>.jpg">
+					<!-- <img src="otherimg/estimate/division<%=i%>.jpg"> -->
 					<%=division1.get(i)%>
 				</label>
 				<%
@@ -199,7 +199,7 @@ for(i=1; i<=division1.size(); i++){
 		</div>
 		<div class="form_mini" id="form7">
 		<!-- 인테리어 지역주소 -->
-			<div class="form_title">인테리어 하실 지역을 입력해주세요.</div>
+			<div class="form_title">시공하시는 곳의 주소를 알려주세요.</div>
 			<div class="form_content">
 				<input type="text" name="address" class="block">
 			</div>
@@ -214,6 +214,12 @@ for(i=1; i<=division1.size(); i++){
     			<label for="video"  class="will">영상상담</label>
     			<input type="radio" name="consulting" id="consulting_no"  class="block" value="0">
     			<label for="consulting_no"  class="will">상담필요없음</label>
+    		</div>
+    		<div class="notice">
+    			<p>
+    			*영상상담이란? 고객님이 현장에서 영상통화를 통해 업체와 편리하게 상담하는 서비스입니다.<br>
+    			현장을 보여주고, 이를 통해 비대면으로 상세견적을 받아보실 수 있어요.
+    			</p>
     		</div>
 		</div>
 		<div class="form_mini" id="form9">
@@ -255,6 +261,12 @@ for(i=1; i<=division1.size(); i++){
 		</div>
 		</form>
 	</div>
+	<footer>
+	<div>
+	소문난집에서는 업체의 추천, 업체와의 소통에 도움은 드릴 수 있으나 A/S, 공사와 관련된 일체의 책임은 시공 업체에 있습니다.<br>
+	업체 별로 A/S기간과 범위의 차이가 있으니 이를 꼭 확인하시고 계약하시기 바랍니다.
+	</div>
+	</footer>
 <%
 //DB개체 정리
 /*
@@ -440,7 +452,7 @@ $('document').ready(function(){
 	}
 })
 function formChk(){
-	return confirm("소문난집에서는 업체의 추천, 업체와의 소통에 도움은 드릴 수 있으나 A/S, 공사와 관련된 일체의 책임은 시공 업체에 있습니다.\n업체 별로 A/S기간과 범위의 차이가 있으니 이를 꼭 확인하시고 계약하시기 바랍니다.");
+	//return confirm("");
 }
 </script>
 <script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>

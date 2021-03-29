@@ -25,7 +25,6 @@ response.setDateHeader("Expires", 31536000);
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-PC15JG6KGN');
 </script>
 <link rel="SHORTCUT ICON" href="img/favicon.ico" />
@@ -575,43 +574,50 @@ applyEle.on('click', function(){
 		<div class="center">
 	<%
 	//추천 사례 받아오기
-	query = "select * from REMODELING where Root_area = -1 order by Number DESC LIMIT 1";
+	query = "select * from RECOMMEND order by Number ASC";
 	pstmt = conn.prepareStatement(query);
 	rs = pstmt.executeQuery();
 	String recitem[][] = new String[100][18];
 	int i = 0;
 	while(rs.next()){
 		recitem[i][0] = rs.getString("Number");
-		recitem[i][1] = rs.getString("Id");
-		recitem[i][2] = rs.getString("Title");
-		recitem[i][3] = rs.getString("URL");
+//		recitem[i][1] = rs.getString("Id");
+//		recitem[i][2] = rs.getString("Title");
+		recitem[i][3] = rs.getString("Path");
+		String imgstr = rs.getString("Rec_img");
+		%>
+			<div><div class="center_img"><div>
+				<a href = "<%=recitem[i][3]%>" target="_self">
+					<img src="<%=imgstr%>" class="eotkd">
+				</a>
+			</div></div></div>
+			<%
 		i++;
 	}
 	//out.println(pstmt);
 	int recnum = i;
-	//추천 사례 사진 받아오기
-	for(i=0; i<recnum; i++){
-    	pstmt = null;
-    	query = "SELECT * FROM RMDL_IMG WHERE Number = ? order by Number2";
-    	rs = null;
-    	pstmt = conn.prepareStatement(query);
-    	pstmt.setString(1, recitem[i][0]);
-    	rs = pstmt.executeQuery();
-    	while(rs.next()){
-    		String imgstr = rs.getString("Path");
-    		imgstr = imgstr.replaceAll("%", "%25");
-    		%>
-			<div><div class="center_img"><div>
-			<a href = "<%=recitem[i][3]%>" target="_self">
-    		<img src="<%=imgstr%>" class="eotkd">
-    		</a>
-    		</div></div></div>
-    		<%
-    	}
-    	%>
-	<%
-	}
 	%>
+<%--	for(i=0; i<recnum; i++){--%>
+<%--    	pstmt = null;--%>
+<%--    	query = "SELECT * FROM RMDL_IMG WHERE Number = ? order by Number2";--%>
+<%--    	rs = null;--%>
+<%--    	pstmt = conn.prepareStatement(query);--%>
+<%--    	pstmt.setString(1, recitem[i][0]);--%>
+<%--    	rs = pstmt.executeQuery();--%>
+<%--    	while(rs.next()){--%>
+<%--    		imgstr = imgstr.replaceAll("%", "%25");--%>
+<%--    		%>--%>
+<%--			<div><div class="center_img"><div>--%>
+<%--			<a href = "<%=recitem[i][3]%>" target="_self">--%>
+<%--    		<img src="<%=imgstr%>" class="eotkd">--%>
+<%--    		</a>--%>
+<%--    		</div></div></div>--%>
+<%--    		<%--%>
+<%--    	}--%>
+<%--    	%>--%>
+<%--	<%--%>
+<%--	}--%>
+<%--	%>--%>
 			</div>
 	</div>
 	<form action="index.jsp" method="GET">
@@ -1406,6 +1412,13 @@ $(document).ready(function(){
 })
 </script>
 <script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>
+<script>
+window.onload = function(){
+	if("<%=s_id%>" != "100" || "<%=s_id%>" == null){
+		location.href = "checking.html";
+	}
+}
+</script>
 <script type="text/javascript">
 if(!wcs_add) var wcs_add = {};
 wcs_add["wa"] = "3602e31fd32c7e";
